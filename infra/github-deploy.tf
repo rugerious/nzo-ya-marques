@@ -1,9 +1,12 @@
 # GitHub Actions deploys the site with short-lived credentials (OIDC): no AWS keys stored in GitHub.
 
-variable "github_repo" {
-  description = "Only this repository may assume the deploy role."
+# Repositories created after mid-July 2026 send an immutable OIDC subject: owner and repo carry their numeric IDs.
+# A deleted-and-recreated repo with the same name gets new IDs, so it cannot reuse this role.
+# Check with: gh api repos/rugerious/nzo-ya-marques/actions/oidc/customization/sub
+variable "github_repo_subject" {
+  description = "Immutable OIDC subject prefix of the only repository allowed to deploy."
   type        = string
-  default     = "rugerious/nzo-ya-marques"
+  default     = "rugerious@280082370/nzo-ya-marques@1450333058"
 }
 
 # The GitHub OIDC provider already exists in this account (shared with other projects), so it is read, not created.
@@ -30,7 +33,7 @@ data "aws_iam_policy_document" "deploy_trust" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_repo}:ref:refs/heads/main"]
+      values   = ["repo:${var.github_repo_subject}:ref:refs/heads/main"]
     }
   }
 }
