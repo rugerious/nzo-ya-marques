@@ -1,0 +1,18 @@
+# Personal profile for the private briefing: never in this public repo
+perfil.yaml
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+*.tfvars
+!example.tfvars
+
+# Secrets and local files
+.env
+.env.*
+*.pem
+.DS_Store
+Thumbs.db
