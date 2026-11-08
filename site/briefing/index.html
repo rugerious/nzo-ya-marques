@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Briefing · Nzo ya Marques</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080a0f; --bg2: #0d1117; --bg3: #111820; --surface: #141c26; --border: #1e2d40;
+    --ink: #e8e4dc; --text: #c9d3dc; --soft: #8aa0b4; --dim: #2a3a4a;
+    --amber: #f5a623; --amber2: #ffbf4a; --blue: #3b9eff; --blue2: #5bb8ff; --rust: #e84a20; --green: #2dce7a;
+    --mono: 'DM Mono', monospace; --display: 'Bebas Neue', sans-serif; --serif: 'Instrument Serif', serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.7; }
+  a { color: var(--soft); } a:hover { color: var(--blue); }
+  em { font-family: var(--serif); font-style: italic; color: var(--amber); font-weight: 400; }
+
+  .welcome { background: var(--amber); color: #000; text-align: center; padding: 10px 20px; font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
+
+  header { border-bottom: 1px solid var(--border); }
+  .bar { max-width: 1140px; margin: 0 auto; padding: 18px 52px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { font-family: var(--display); font-size: 22px; letter-spacing: .1em; color: var(--ink); text-decoration: none; }
+  .logo span { color: var(--amber); }
+  nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+  nav a { padding: 12px 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); text-decoration: none; }
+  nav a[aria-current="page"] { color: var(--amber); border-bottom: 1px solid var(--amber); }
+
+  /* Kuribotas puzzle: KUR_S / BOTIA solves to KURI_ / BOTAS, then glows */
+  .kb { position: relative; display: block; width: 88px; height: 34px; margin-left: 10px; animation: kbGlow 8s ease-in-out infinite; }
+  .kb span { position: absolute; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 14px; line-height: 1; color: #080a0f; border-radius: 2px; }
+  .kb .c { background: var(--ink); } .kb .a { background: var(--amber); }
+  .kb .t0 { top: 0; } .kb .t1 { top: 18px; }
+  .kb .x0 { left: 0; } .kb .x1 { left: 18px; } .kb .x2 { left: 36px; } .kb .x3 { left: 54px; } .kb .x4 { left: 72px; }
+  .kb .mi { animation: kbI 8s ease-in-out infinite; }
+  .kb .ma { animation: kbA 8s ease-in-out infinite; }
+  .kb .ms { animation: kbS 8s ease-in-out infinite; }
+  @keyframes kbI { 0%,10% { transform: translate(0,0); } 20%,95% { transform: translate(0,-18px); } 100% { transform: translate(0,0); } }
+  @keyframes kbA { 0%,25% { transform: translate(0,0); } 35%,95% { transform: translate(-18px,0); } 100% { transform: translate(0,0); } }
+  @keyframes kbS { 0%,40% { transform: translate(0,0); } 50%,95% { transform: translate(0,18px); } 100% { transform: translate(0,0); } }
+  @keyframes kbGlow { 0%,52%,90%,100% { filter: none; } 62%,82% { filter: drop-shadow(0 0 6px rgba(245,166,35,.85)); } }
+  @media (prefers-reduced-motion: reduce) {
+    .kb, .kb .mi, .kb .ma, .kb .ms { animation: none; }
+    .kb .mi { transform: translate(0,-18px); } .kb .ma { transform: translate(-18px,0); } .kb .ms { transform: translate(0,18px); }
+  }
+
+  .hero { border-bottom: 1px solid var(--border); }
+  .hero-in { max-width: 1140px; margin: 0 auto; padding: 72px 52px 64px; display: flex; flex-direction: column; gap: 14px; }
+  .eyebrow { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); }
+  .eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--blue); }
+  h1 { font-family: var(--display); font-weight: 400; font-size: clamp(56px, 9vw, 96px); line-height: .87; letter-spacing: .02em; }
+  h1 span { color: var(--amber); }
+  .motto { font-family: var(--serif); font-style: italic; font-size: clamp(20px, 2.4vw, 24px); color: var(--amber); }
+
+  main { max-width: 1140px; margin: 0 auto; padding: 48px 52px 88px; display: flex; flex-direction: column; gap: 40px; }
+  .note { padding: 10px 14px; border: 1px dashed var(--dim); font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--soft); }
+
+  .summary { position: relative; background: var(--bg2); border: 1px solid var(--border); padding: 32px 36px; display: flex; flex-direction: column; gap: 14px; }
+  .summary::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--rust), var(--amber), var(--blue)); }
+  .live { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--green); }
+  .live::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+  h2 { font-family: var(--display); font-weight: 400; font-size: clamp(36px, 5vw, 52px); line-height: 1; letter-spacing: .02em; }
+  .summary h2 { font-size: clamp(30px, 4vw, 40px); }
+  .arrows { list-style: none; display: flex; flex-direction: column; gap: 10px; font-family: var(--mono); font-size: 13px; color: var(--text); }
+  .arrows li { display: flex; gap: 14px; }
+  .arrows li::before { content: '→'; color: var(--amber); flex: none; }
+
+  .layout { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; }
+  .col-main { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 48px; }
+  .col-side { flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+
+  .sec { display: flex; flex-direction: column; gap: 18px; }
+  .sec-head { display: flex; flex-direction: column; gap: 6px; }
+  .s-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--blue); }
+  .s-eyebrow::before { content: '// '; color: var(--soft); }
+
+  .card { background: var(--bg2); border: 1px solid var(--border); padding: 28px; display: flex; flex-direction: column; gap: 18px; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--soft); }
+  .tag { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border: 1px solid var(--blue); color: var(--blue); background: rgba(59,158,255,.06); }
+  .tag.amber { border-color: var(--amber); color: var(--amber); background: rgba(245,166,35,.06); }
+  h3 { font-family: var(--serif); font-weight: 400; font-size: 26px; line-height: 1.2; }
+  .rows { display: flex; flex-direction: column; gap: 10px; }
+  .row { display: flex; gap: 14px; }
+  .lbl { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); min-width: 92px; padding-top: 4px; flex: none; }
+  .row p, .card > p { color: var(--text); }
+  .solid { display: flex; gap: 8px; align-items: flex-start; }
+  .dot { flex: none; width: 12px; height: 12px; margin-top: 7px; border-radius: 50%; }
+  .dot.strong { background: var(--green); }
+  .dot.weak { border: 2px solid var(--amber); }
+  .todo { border-left: 2px solid var(--amber); background: rgba(245,166,35,.05); padding: 10px 16px; display: flex; flex-direction: column; gap: 2px; }
+  .todo .lbl { color: var(--amber); padding: 0; }
+  .todo p { font-family: var(--mono); font-size: 13px; line-height: 1.6; color: var(--amber2); }
+  .feedback { display: flex; align-items: center; gap: 8px; border-top: 1px solid var(--border); padding-top: 14px; }
+  .feedback span { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--soft); margin-right: auto; }
+  .vote { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; background: var(--bg); color: var(--soft); border: 1px solid var(--border); cursor: pointer; }
+  .vote:hover { border-color: var(--blue); color: var(--blue); }
+  .vote.up[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: #000; }
+  .vote.down[aria-pressed="true"] { background: rgba(232,74,32,.12); border-color: var(--rust); color: var(--rust); }
+  .quiet { font-family: var(--mono); font-size: 12px; color: var(--soft); }
+
+  .pleasure { background: var(--bg3); border: 1px solid var(--border); padding: 22px 28px; display: flex; flex-direction: column; gap: 6px; }
+  .pleasure .k { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--green); }
+  .pleasure h2 { font-size: 32px; letter-spacing: .03em; }
+
+  .panel { background: var(--bg2); border: 1px solid var(--border); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+  .panel .k { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--blue); }
+  .panel h2 { font-size: 26px; letter-spacing: .04em; }
+  .projects { list-style: none; }
+  .projects li { display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-top: 1px solid var(--border); }
+  .projects b { font-weight: 500; }
+  .projects small { font-family: var(--mono); font-size: 11px; color: var(--soft); }
+  .projects small i { font-style: normal; color: var(--amber); }
+  .track { position: relative; height: 36px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+  .track::before { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--w); background: var(--fill); }
+  .track span { position: relative; }
+  .legend { display: flex; flex-direction: column; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--soft); }
+  .legend h2 { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--ink); }
+  .legend div { display: flex; gap: 8px; align-items: center; }
+  .legend .dot { margin: 0; }
+
+  footer { border-top: 1px solid var(--border); background: var(--bg2); padding: 32px 52px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  footer b { font-family: var(--display); font-weight: 400; font-size: 20px; letter-spacing: .1em; }
+  footer span { font-family: var(--mono); font-size: 11px; color: var(--soft); }
+
+  @media (max-width: 860px) {
+    .bar { padding: 14px 20px; }
+    .hero-in { padding: 40px 20px 36px; }
+    main { padding: 28px 20px 64px; gap: 28px; }
+    .summary { padding: 22px 20px; }
+    .card { padding: 20px; gap: 14px; }
+    h3 { font-size: 22px; }
+    footer { padding: 28px 20px; }
+  }
+  @media (max-width: 560px) {
+    .row { flex-direction: column; gap: 2px; }
+    .lbl { padding-top: 0; }
+    nav a { padding: 12px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="welcome">Nzo ya Marques · Briefing</div>
+
+<header>
+  <div class="bar">
+    <a href="/" class="logo">NZO <span>YA</span> MARQUES</a>
+    <nav aria-label="Divisões da casa">
+      <a href="/">Percurso</a>
+      <a href="/briefing/" aria-current="page">Briefing</a>
+      <span class="kb" role="img" aria-label="Kuribotas">
+        <span class="c t0 x0">K</span><span class="c t0 x1">U</span><span class="c t0 x2">R</span><span class="a t0 x4 ms">S</span>
+        <span class="a t1 x0">B</span><span class="a t1 x1">O</span><span class="a t1 x2">T</span><span class="c t1 x3 mi">I</span><span class="a t1 x4 ma">A</span>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" aria-labelledby="hello">
+  <div class="hero-in">
+    <div class="eyebrow">Segunda · 9 nov 2026 · ~8 min</div>
+    <h1 id="hello">BOM DIA, <span>PAULO.</span></h1>
+    <p class="motto">Skills don't expire. Fear does.</p>
+  </div>
+</section>
+
+<main>
+  <p class="note">Conteúdo de exemplo: a forma é a proposta, as notícias entre [ ] são marcadores.</p>
+
+  <section class="summary" aria-labelledby="summary">
+    <div class="live">Pronto às 6h30</div>
+    <h2 id="summary">Hoje em <em>30 segundos</em></h2>
+    <ul class="arrows">
+      <li>[A novidade mais forte do dia, numa linha]</li>
+      <li>[Uma ligação direta a um dos teus projetos]</li>
+      <li>[O que vale a pena fazer hoje, se houver]</li>
+    </ul>
+  </section>
+
+  <div class="layout">
+    <div class="col-main">
+
+      <section class="sec" aria-labelledby="core">
+        <div class="sec-head">
+          <span class="s-eyebrow">Claude · projetos · cloud · emprego</span>
+          <h2 id="core">Núcleo <em>todos os dias</em></h2>
+        </div>
+
+        <article class="card">
+          <div class="meta"><span class="tag">Claude</span>anthropic.com · documentação</div>
+          <h3>[Novidade sobre o Claude: plugin, skill ou serviço]</h3>
+          <div class="rows">
+            <div class="row"><span class="lbl">O que é</span><p>[O que é, em duas ou três frases, sem linguagem de marketing.]</p></div>
+            <div class="row"><span class="lbl">É sólido?</span><div class="solid"><span class="dot strong" aria-hidden="true"></span><p>Anúncio oficial com documentação publicada. Já testado por terceiros.</p></div></div>
+            <div class="row"><span class="lbl">Porquê</span><p>Mexe diretamente no que constróis com o Claude todos os dias.</p></div>
+          </div>
+          <div class="todo"><span class="lbl">O que podias fazer</span><p>No Kuribotas: [o que melhorava e como experimentar em 30 minutos].</p></div>
+          <div class="feedback"><span>Foi útil? Os pesos aprendem com isto.</span>
+            <button type="button" class="vote up" aria-label="Útil" aria-pressed="false"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+            <button type="button" class="vote down" aria-label="Não útil" aria-pressed="false"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="meta"><span class="tag">Cloud · AWS</span>aws.amazon.com · blog oficial</div>
+          <h3>[Novidade AWS ligada ao SAA-C03 ou ao CloudOps]</h3>
+          <div class="rows">
+            <div class="row"><span class="lbl">O que é</span><p>[O que é, em duas ou três frases.]</p></div>
+            <div class="row"><span class="lbl">É sólido?</span><div class="solid"><span class="dot strong" aria-hidden="true"></span><p>Blog oficial da AWS. Disponível na tua região.</p></div></div>
+            <div class="row"><span class="lbl">Porquê</span><p>Toca num tema do exame e num serviço que já usas no CloudOps.</p></div>
+          </div>
+          <div class="todo"><span class="lbl">O que podias fazer</span><p>No CloudOps: [a mudança concreta no Terraform].</p></div>
+          <div class="feedback"><span>Foi útil? Os pesos aprendem com isto.</span>
+            <button type="button" class="vote up" aria-label="Útil" aria-pressed="false"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+            <button type="button" class="vote down" aria-label="Não útil" aria-pressed="false"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="meta"><span class="tag">Emprego</span>[fonte]</div>
+          <h3>[Vaga ou tendência: SRE / telco cloud]</h3>
+          <div class="rows">
+            <div class="row"><span class="lbl">O que é</span><p>[O que é, em duas ou três frases.]</p></div>
+            <div class="row"><span class="lbl">É sólido?</span><div class="solid"><span class="dot weak" aria-hidden="true"></span><p>Uma só fonte. Por confirmar antes de agir.</p></div></div>
+            <div class="row"><span class="lbl">Porquê</span><p>Bate com a tua regra: tecnologia genérica, sabor telecom.</p></div>
+          </div>
+          <div class="todo"><span class="lbl">O que podias fazer</span><p>No 5G Operations Lab: [o que mostrar para esta porta].</p></div>
+          <div class="feedback"><span>Foi útil? Os pesos aprendem com isto.</span>
+            <button type="button" class="vote up" aria-label="Útil" aria-pressed="false"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+            <button type="button" class="vote down" aria-label="Não útil" aria-pressed="false"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
+          </div>
+        </article>
+      </section>
+
+      <section class="sec" aria-labelledby="attention">
+        <div class="sec-head">
+          <span class="s-eyebrow">Angola · imobiliário e finanças · telecom/5G</span>
+          <h2 id="attention">Atenção <em>quando há algo forte</em></h2>
+        </div>
+        <article class="card">
+          <div class="meta"><span class="tag amber">Telecom / 5G</span>[fonte]</div>
+          <h3>[Novidade de operador ou da 3GPP com impacto em telco cloud]</h3>
+          <p>[Versão curta: o que é, se é sólido e o que muda para ti, em três linhas.]</p>
+        </article>
+        <p class="quiet">Nada forte hoje em: negócio em Angola, mercado imobiliário e financeiro.</p>
+      </section>
+
+      <section class="pleasure" aria-labelledby="pleasure">
+        <span class="k">Destaque do dia · rotativo</span>
+        <h2 id="pleasure">NBA · <em>[o momento da noite]</em></h2>
+        <p>[Um parágrafo curto. Amanhã: carros, depois Portugal, depois Angola.]</p>
+      </section>
+
+    </div>
+
+    <aside class="col-side" aria-label="Contexto">
+      <section class="panel" aria-labelledby="projects">
+        <span class="k">// github · rugerious</span>
+        <h2 id="projects">Os teus projetos</h2>
+        <ul class="projects">
+          <li><b>CloudOps</b><small>[última atividade] · <i>1 ligação hoje</i></small></li>
+          <li><b>Handover</b><small>[última atividade]</small></li>
+          <li><b>5G Operations Lab</b><small>[última atividade] · <i>1 ligação hoje</i></small></li>
+          <li><b>Kuribotas</b><small>[última atividade] · <i>1 ligação hoje</i></small></li>
+        </ul>
+      </section>
+
+      <section class="panel" aria-labelledby="weights">
+        <span class="k">// transmission log</span>
+        <h2 id="weights">Pesos atuais</h2>
+        <div class="track" style="--w:100%;--fill:rgba(245,166,35,.14);color:var(--amber)"><span>Núcleo</span><span>1.0</span></div>
+        <div class="track" style="--w:60%;--fill:rgba(59,158,255,.14);color:var(--blue2)"><span>Atenção</span><span>0.6</span></div>
+        <div class="track" style="--w:30%;--fill:rgba(45,206,122,.14);color:var(--green)"><span>Prazer</span><span>0.3</span></div>
+        <p class="quiet">Ajustam-se no dia seguinte com os teus votos.</p>
+      </section>
+
+      <section class="legend" aria-labelledby="legend">
+        <h2 id="legend">Como ler «É sólido?»</h2>
+        <div><span class="dot strong" aria-hidden="true"></span>Fonte oficial e testado</div>
+        <div><span class="dot weak" aria-hidden="true"></span>Anúncio ou fonte única, por confirmar</div>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <b>NZO YA MARQUES</b>
+  <span>Escrito às 6h10 · [n] fontes lidas · perfil v1</span>
+</footer>
+
+<script>
+  // One vote per item: pressing the other button switches, pressing the same one clears it.
+  document.querySelectorAll('.feedback').forEach(function (row) {
+    var buttons = row.querySelectorAll('.vote');
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var on = btn.getAttribute('aria-pressed') !== 'true';
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    });
+  });
+</script>
+</body>
+</html>
