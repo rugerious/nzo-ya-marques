@@ -104,6 +104,8 @@
   h3 a, .arrows a, .pleasure em a { color: inherit; text-decoration: none; }
   h3 a:hover, .arrows a:hover, .pleasure em a:hover { color: var(--blue); text-decoration: underline; }
   [hidden] { display: none !important; }
+  .projects b a { color: var(--ink); text-decoration: none; }
+  .projects b a:hover { color: var(--blue); text-decoration: underline; }
 
   .pleasure { background: var(--bg3); border: 1px solid var(--border); padding: 22px 28px; display: flex; flex-direction: column; gap: 6px; }
   .pleasure .k { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--green); }
@@ -311,6 +313,17 @@
     </div>
 
     <aside class="col-side" aria-label="Contexto">
+      <section class="panel" aria-labelledby="projects">
+        <span class="k">// github · rugerious</span>
+        <h2 id="projects">Projetos</h2>
+        <ul class="projects" id="project-list">
+          <li><b><a href="https://github.com/rugerious/kuribotas" target="_blank" rel="noopener noreferrer">kuribotas</a></b><small>Real-time family chat PWA inspired by 2000s IRC · TypeScript</small></li>
+          <li><b><a href="https://github.com/rugerious/handover-5g" target="_blank" rel="noopener noreferrer">handover-5g</a></b><small>Cloud-native 5G operations lab on Kubernetes · HCL</small></li>
+          <li><b><a href="https://github.com/rugerious/cloudops-aws-platform" target="_blank" rel="noopener noreferrer">cloudops-aws-platform</a></b><small>Serverless incident management platform on AWS · HTML</small></li>
+          <li><b><a href="https://github.com/rugerious/nzo-ya-marques" target="_blank" rel="noopener noreferrer">nzo-ya-marques</a></b><small>This site: S3, CloudFront and Terraform · HTML</small></li>
+        </ul>
+      </section>
+
       <section class="panel" aria-labelledby="sources">
         <span class="k">// fontes</span>
         <h2 id="sources">De onde vem</h2>
@@ -588,6 +601,21 @@
         document.getElementById('live').textContent = 'Atualizado às ' + hhmm(data.generated_at);
         document.getElementById('generated').textContent =
           'Atualizado às ' + hhmm(data.generated_at) + ' de ' + shortDate(data.generated_at) + ' · ' + data.sources_ok + ' fontes · títulos e links para o original';
+        var plist = document.getElementById('project-list');
+        if (data.projects && data.projects.length) {
+          plist.replaceChildren();
+          data.projects.forEach(function (p) {
+            var li = el('li'), b = el('b');
+            b.appendChild(link({ title: p.name, link: p.link }));
+            li.appendChild(b);
+            var bits = [];
+            if (p.description) bits.push(p.description);
+            if (p.language) bits.push(p.language);
+            if (p.pushed_at) bits.push('atualizado ' + shortDate(p.pushed_at));
+            li.appendChild(el('small', null, bits.join(' · ')));
+            plist.appendChild(li);
+          });
+        }
         document.getElementById('demo-note').hidden = true;
       })
       .catch(function () { /* keep the placeholders */ });

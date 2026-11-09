@@ -18,6 +18,12 @@
       ]
     }
   },
+  "projects": [
+    "rugerious/kuribotas",
+    "rugerious/handover-5g",
+    "rugerious/cloudops-aws-platform",
+    "rugerious/nzo-ya-marques"
+  ],
   "highlight": [
     { "topic": "NBA", "feeds": [ { "name": "ESPN", "url": "https://www.espn.com/espn/rss/nba/news", "tag": "NBA", "official": false } ] },
     { "topic": "Portugal", "feeds": [ { "name": "Público", "url": "https://feeds.feedburner.com/PublicoRSS", "tag": "Portugal", "official": false } ] }

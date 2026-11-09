@@ -22,6 +22,8 @@ jobs:
 
       - name: Build from feeds
         run: python3 -I briefing/build.py > briefing.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # read-only, higher API rate limit for public repo facts
 
       - name: Sanity check
         run: python3 -I -c "import json; d = json.load(open('briefing.json')); print(d['sources_ok'], 'sources ok, failed:', d['sources_failed'])"
