@@ -15,6 +15,7 @@ import datetime as dt
 import email.utils
 import html
 import json
+import os
 import pathlib
 import re
 import sys
@@ -132,6 +133,40 @@ def collect(feeds, max_age, status):
     return per_feed
 
 
+def github_projects(repos, status):
+    """Public facts from the GitHub API: name, description, language, last push, link.
+
+    No commit messages or issues: only what the repo page itself shows.
+    """
+    headers = {"User-Agent": USER_AGENT, "Accept": "application/vnd.github+json"}
+    token = os.environ.get("GITHUB_TOKEN")
+    if token:  # higher rate limit inside GitHub Actions
+        headers["Authorization"] = "Bearer " + token
+    projects = []
+    for full_name in repos:
+        url = "https://api.github.com/repos/" + urllib.parse.quote(full_name)
+        try:
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+                repo = json.loads(resp.read(MAX_BYTES))
+        except Exception as exc:
+            log("FAIL github %s: %s" % (full_name, exc))
+            status["failed"].append("github:" + full_name)
+            continue
+        if repo.get("private"):
+            continue  # never publish a private repo, even if listed by mistake
+        projects.append({
+            "name": clean_text(repo.get("name"), 60),
+            "description": clean_text(repo.get("description"), 160),
+            "language": clean_text(repo.get("language"), 30),
+            "pushed_at": repo.get("pushed_at"),
+            "link": clean_link(repo.get("html_url")),
+        })
+        log("ok   github %s" % full_name)
+    projects.sort(key=lambda p: p["pushed_at"] or "", reverse=True)
+    return projects
+
+
 def round_robin(per_feed, limit):
     """Take the newest from each feed in turn, so one busy feed cannot fill the section."""
     picked, seen = [], set()
@@ -155,6 +190,7 @@ def main():
         for feed in section["feeds"]:
             assert feed.get("max_age_days", 1) > 0, feed["name"]
     assert config["highlight"], "highlight rotation is empty"
+    assert all(re.fullmatch(r"[\w.-]+/[\w.-]+", r) for r in config.get("projects", [])), "projects must be owner/repo"
     if "--check" in sys.argv:
         log("config ok")
         return 0
@@ -170,6 +206,8 @@ def main():
     pick = config["highlight"][today.toordinal() % len(config["highlight"])]
     hl_items = round_robin(collect(pick["feeds"], dt.timedelta(days=2), status), 1)
 
+    projects = github_projects(config.get("projects", []), status)
+
     total = sum(len(v) for v in sections.values()) + len(hl_items)
     if total == 0:
         log("nothing collected: not publishing")
@@ -181,6 +219,7 @@ def main():
         "sources_failed": status["failed"],
         "sections": sections,
         "highlight": {"topic": pick["topic"], "item": hl_items[0] if hl_items else None},
+        "projects": projects,
     }, ensure_ascii=False, indent=2))
     log("built: %d items, %d sources ok, %d failed" % (total, status["ok"], len(status["failed"])))
     return 0
