@@ -22,9 +22,9 @@ jobs:
     runs-on: ubuntu-latest
     # No "environment:" here on purpose: it would change the OIDC subject the AWS role trusts.
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
-      - uses: aws-actions/configure-aws-credentials@v6.2.3 # 22 Jul 2026, Node 24
+      - uses: aws-actions/configure-aws-credentials@v6.3.0 # 22 Jul 2026, Node 24
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
           aws-region: eu-west-2
