@@ -1,0 +1,24 @@
+{
+  "_comment": "Public briefing sources. Titles and links only; the text stays on the original site. Add or remove feeds with a PR.",
+  "max_age_days": 4,
+  "sections": {
+    "core": {
+      "items": 3,
+      "feeds": [
+        { "name": "AWS What's New", "url": "https://aws.amazon.com/about-aws/whats-new/recent/feed/", "tag": "Cloud · AWS", "official": true },
+        { "name": "AWS News Blog", "url": "https://aws.amazon.com/blogs/aws/feed/", "tag": "Cloud · AWS", "official": true },
+        { "name": "InfoQ", "url": "https://feed.infoq.com/anthropic/", "tag": "Claude", "official": false }
+      ]
+    },
+    "attention": {
+      "items": 2,
+      "feeds": [
+        { "name": "RCR Wireless", "url": "https://www.rcrwireless.com/feed", "tag": "Telecom / 5G", "official": false }
+      ]
+    }
+  },
+  "highlight": [
+    { "topic": "NBA", "feeds": [ { "name": "ESPN", "url": "https://www.espn.com/espn/rss/nba/news", "tag": "NBA", "official": false } ] },
+    { "topic": "Portugal", "feeds": [ { "name": "Público", "url": "https://feeds.feedburner.com/PublicoRSS", "tag": "Portugal", "official": false } ] }
+  ]
+}
