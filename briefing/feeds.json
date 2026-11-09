@@ -1,13 +1,14 @@
 {
   "_comment": "Public briefing sources. Titles and links only; the text stays on the original site. Add or remove feeds with a PR.",
   "max_age_days": 4,
+  "_max_age": "Default window in days; a feed can override it with its own max_age_days.",
   "sections": {
     "core": {
       "items": 3,
       "feeds": [
+        { "name": "InfoQ", "url": "https://feed.infoq.com/anthropic/", "tag": "Claude", "official": false, "max_age_days": 14 },
         { "name": "AWS What's New", "url": "https://aws.amazon.com/about-aws/whats-new/recent/feed/", "tag": "Cloud · AWS", "official": true },
-        { "name": "AWS News Blog", "url": "https://aws.amazon.com/blogs/aws/feed/", "tag": "Cloud · AWS", "official": true },
-        { "name": "InfoQ", "url": "https://feed.infoq.com/anthropic/", "tag": "Claude", "official": false }
+        { "name": "AWS News Blog", "url": "https://aws.amazon.com/blogs/aws/feed/", "tag": "Cloud · AWS", "official": true, "max_age_days": 7 }
       ]
     },
     "attention": {
