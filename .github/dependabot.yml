@@ -1,0 +1,28 @@
+# Keeps pinned versions current with one grouped PR a month per ecosystem.
+# cooldown: a new release must be at least 14 days old before a PR is opened
+# (house rule: dependencies at least two weeks old). Security updates skip the wait.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 14
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: "ci"
+
+  - package-ecosystem: "terraform"
+    directory: "/infra"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 14
+    groups:
+      terraform:
+        patterns: ["*"]
+    commit-message:
+      prefix: "chore(infra)"
