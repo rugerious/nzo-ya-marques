@@ -212,6 +212,19 @@
   .pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
   .pills span { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 9px 20px; border: 1px solid var(--border); color: var(--soft); }
 
+  .built { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .build { background: var(--bg2); padding: 28px 26px; display: flex; flex-direction: column; gap: 14px; }
+  .build-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .build h3 { font-family: var(--display); font-weight: 400; font-size: 26px; letter-spacing: .04em; line-height: 1.05; }
+  .state { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 3px 8px; border: 1px solid; }
+  .state.live { color: var(--green); border-color: var(--green); }
+  .state.wip { color: var(--amber); border-color: var(--amber); }
+  .build-what { font-size: 14px; color: var(--text); }
+  .build .m-lines { margin: 0; max-width: none; gap: 10px; }
+  .build .m-lines li { font-size: 12px; }
+  .build-link { margin-top: auto; font-family: var(--mono); font-size: 11px; color: var(--soft); text-decoration: none; word-break: break-all; padding-top: 6px; }
+  .build-link:hover { color: var(--blue); }
+  @media (max-width: 1000px) { .built { grid-template-columns: minmax(0, 1fr); } }
   .now { position: relative; background: var(--bg2); border: 1px solid var(--border); padding: 52px; display: flex; flex-direction: column; gap: 20px; }
   .now::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--rust), var(--amber), var(--blue)); }
   .now h3 { font-family: var(--display); font-weight: 400; font-size: clamp(32px, 5vw, 58px); line-height: 1; letter-spacing: .02em; }
@@ -393,13 +406,28 @@
       <div class="skills">
         <div class="skill">
           <h3>Cloud Infrastructure</h3>
-          <p>Real AWS projects. Live infrastructure. Not just theory: deployed and running.</p>
-          <div class="tags"><span class="hl">S3</span><span class="hl">EC2</span><span class="hl">VPC</span><span class="hl">Route 53</span><span class="hl">CloudFront</span><span class="hl">ACM</span><span class="hl">CloudWatch</span><span class="hl">IAM</span></div>
+          <p>Three systems live on AWS, built, run and paid for by me. Private networks with zero inbound ports, shell access only through SSM.</p>
+          <div class="tags"><span class="hl">EC2 · Graviton</span><span class="hl">VPC</span><span class="hl">S3</span><span class="hl">CloudFront</span><span class="hl">WAF</span><span class="hl">Route 53</span><span class="hl">ACM</span><span class="hl">SSM</span></div>
         </div>
         <div class="skill">
-          <h3>Network Engineering</h3>
-          <p>15 years deep. From submarine fibre to 5G RAN. The foundation that makes cloud networking click.</p>
-          <div class="tags"><span>Cisco IOS</span><span>VLANs</span><span>BGP/OSPF</span><span>DNS</span><span>5G RAN</span><span>LTE</span><span>Fibre optic</span></div>
+          <h3>Serverless &amp; Events</h3>
+          <p>An incident platform with no servers: one route per state change, P1 escalation by events, files straight to S3 with presigned URLs.</p>
+          <div class="tags"><span class="hl">Lambda</span><span class="hl">API Gateway · JWT</span><span class="hl">DynamoDB</span><span class="hl">Cognito</span><span class="hl">EventBridge</span><span class="hl">Step Functions</span><span class="hl">SNS</span></div>
+        </div>
+        <div class="skill">
+          <h3>Infrastructure as Code &amp; CI/CD</h3>
+          <p>Everything as code: about 125 resources on one project. Plan with a read-only role, apply only after human approval, no stored keys.</p>
+          <div class="tags"><span class="hl">Terraform</span><span class="hl">GitHub Actions</span><span class="hl">OIDC</span><span class="hl">Ansible</span><span class="hl">Dependabot</span><span>CloudFormation</span></div>
+        </div>
+        <div class="skill">
+          <h3>Containers &amp; Kubernetes</h3>
+          <p>A 5G core and RAN on k3s, installed by Ansible over SSM, packaged with Helm. Multi-arch images built in CI and published to GHCR.</p>
+          <div class="tags"><span class="hl">Kubernetes · k3s</span><span class="hl">Helm</span><span class="hl">Docker</span><span class="hl">GHCR</span><span class="hl">Cloudflare Tunnel</span></div>
+        </div>
+        <div class="skill">
+          <h3>Networks, 2G to 5G Core</h3>
+          <p>15 years deep, from submarine fibre to 5G RAN. Now running a 5G standalone core and a simulated radio in the cloud: the UE attaches and pings.</p>
+          <div class="tags"><span class="hl">5G SA core</span><span class="hl">Open5GS</span><span class="hl">OCUDU · srsUE</span><span>5G RAN</span><span>LTE</span><span>BGP/OSPF</span><span>Fibre optic</span></div>
         </div>
         <div class="skill">
           <h3>Data Centre Operations</h3>
@@ -407,20 +435,62 @@
           <div class="tags"><span>HP servers</span><span>Extreme Networks</span><span>Ericsson</span><span>A10</span><span>Structured cabling</span></div>
         </div>
         <div class="skill">
-          <h3>Infrastructure as Code</h3>
-          <p>Every change version-controlled and reviewed. Terraform with remote state, CI on every pull request, deploys over OIDC.</p>
-          <div class="tags"><span class="hl">Terraform</span><span class="hl">GitHub Actions</span><span class="hl">OIDC</span><span class="hl">Git</span><span class="hl">AWS CLI</span><span>CloudFormation</span></div>
+          <h3>Monitoring &amp; Reliability</h3>
+          <p>KPI analysis since before it was called observability. Alarms on errors, failed escalations and missed backups; load tested before launch.</p>
+          <div class="tags"><span class="hl">CloudWatch</span><span class="hl">Alarms</span><span class="hl">VPC Flow Logs</span><span class="hl">Load testing</span><span>RCA</span><span>KPI analysis</span></div>
         </div>
         <div class="skill">
-          <h3>Monitoring &amp; Observability</h3>
-          <p>KPI analysis since before it was called observability. Now applying that discipline to cloud infrastructure.</p>
-          <div class="tags"><span class="hl">CloudWatch</span><span class="hl">SNS alarms</span><span>RCA</span><span>KPI analysis</span><span>Remedy</span></div>
+          <h3>Security &amp; Access</h3>
+          <p>One IAM role per function, no long-lived keys anywhere, secrets and account IDs kept out of public repos and CI logs.</p>
+          <div class="tags"><span class="hl">Least privilege</span><span class="hl">OIDC</span><span class="hl">IMDSv2</span><span class="hl">CSP</span><span class="hl">Secret scanning</span><span>MFA</span></div>
         </div>
         <div class="skill">
-          <h3>Security &amp; Access Control</h3>
-          <p>Least-privilege IAM. MFA. No long-lived keys in CI. Built right from day one, not bolted on later.</p>
-          <div class="tags"><span class="hl">IAM roles</span><span class="hl">OIDC</span><span class="hl">MFA</span><span class="hl">Least privilege</span><span>Bucket policies</span></div>
+          <h3>AI in Operations</h3>
+          <p>Claude on Amazon Bedrock triages every new incident. The AI suggests a severity and a reason; a human decides.</p>
+          <div class="tags"><span class="hl">Amazon Bedrock</span><span class="hl">Claude</span><span>Prompt-injection guard</span><span>Human in the loop</span></div>
         </div>
+      </div>
+    </div>
+
+    <div class="block" id="built">
+      <div class="sec-head">
+        <span class="s-eyebrow">Projects</span>
+        <h2>What I've <em>built</em></h2>
+      </div>
+      <div class="built">
+        <article class="build">
+          <div class="build-head"><h3>CloudOps</h3><span class="state live">Live demo</span></div>
+          <p class="build-what">A serverless platform for logging, working and closing IT and data-centre incidents: one place for every incident, its photos and full history.</p>
+          <ul class="m-lines">
+            <li>About 125 resources in Terraform, shipped only through CI with human approval.</li>
+            <li>P1 incidents nobody picks up escalate by themselves: EventBridge and Step Functions, no glue code.</li>
+            <li>AI triage with Claude on Bedrock. It suggests; a manager decides.</li>
+          </ul>
+          <div class="tags"><span class="hl">Lambda</span><span class="hl">API Gateway</span><span class="hl">DynamoDB</span><span class="hl">Cognito</span><span class="hl">Bedrock</span><span class="hl">Terraform</span></div>
+          <a class="build-link" href="https://github.com/rugerious/cloudops-aws-platform" target="_blank" rel="noopener noreferrer">github.com/rugerious/cloudops-aws-platform</a>
+        </article>
+        <article class="build">
+          <div class="build-head"><h3>Handover: 5G Operations Lab</h3><span class="state wip">Building</span></div>
+          <p class="build-what">My handover from RAN to cloud: a cloud-native 5G network on Kubernetes in AWS.</p>
+          <ul class="m-lines">
+            <li>Open5GS core and an OCUDU gNB with srsUE on k3s: the UE attaches and pings, 0% loss.</li>
+            <li>Built with Terraform and Ansible over SSM. Zero inbound ports; the node stops itself every night.</li>
+            <li>Our own Helm chart for the RAN; the radio images are built in CI at pinned commits.</li>
+          </ul>
+          <div class="tags"><span class="hl">k3s</span><span class="hl">Helm</span><span class="hl">Open5GS</span><span class="hl">OCUDU</span><span class="hl">Ansible</span><span class="hl">Terraform</span></div>
+          <a class="build-link" href="https://github.com/rugerious/handover-5g" target="_blank" rel="noopener noreferrer">github.com/rugerious/handover-5g</a>
+        </article>
+        <article class="build">
+          <div class="build-head"><h3>Kuribotas</h3><span class="state live">Live · in family use</span></div>
+          <p class="build-what">A real-time chat for family and friends: 2000s IRC and instant messengers, rebuilt for the phone.</p>
+          <ul class="m-lines">
+            <li>On a Graviton instance behind a Cloudflare Tunnel: no inbound ports at all.</li>
+            <li>Web Push encryption written from scratch and checked against RFC 8291.</li>
+            <li>Load tested: 150 people chatting, p99 7 ms, on the smallest instance.</li>
+          </ul>
+          <div class="tags"><span class="hl">TypeScript</span><span class="hl">WebSockets</span><span class="hl">SQLite</span><span class="hl">PWA</span><span class="hl">Docker</span><span class="hl">Terraform</span></div>
+          <a class="build-link" href="https://github.com/rugerious/kuribotas" target="_blank" rel="noopener noreferrer">github.com/rugerious/kuribotas</a>
+        </article>
       </div>
     </div>
 
@@ -506,9 +576,9 @@
       <div class="now">
         <div class="live">Live · in progress</div>
         <h3>AWS Solutions Architect.<br><em>Making the leap.</em></h3>
-        <p>15 years of knowing how networks physically work, now applied to cloud architecture. Pursuing AWS SAA-C03. Building real infrastructure: this site runs on S3 and CloudFront with Route 53 and ACM, provisioned entirely with Terraform and deployed by GitHub Actions over OIDC, with no stored keys. Every project on GitHub. One commit at a time.</p>
+        <p>15 years of knowing how networks physically work, now applied to cloud architecture. Pursuing AWS SAA-C03. Three systems running on AWS, all in Terraform and all deployed over OIDC with no stored keys: a serverless incident platform with AI triage, a cloud-native 5G lab on Kubernetes, and a real-time chat my family uses every day. This site too: S3 and CloudFront, a daily briefing built from RSS every morning. Every project on GitHub. One commit at a time.</p>
         <div class="tags">
-          <span class="hl">AWS SAA-C03</span><span class="hl">Terraform</span><span class="hl">GitHub Actions</span><span class="hl">Cloud networking</span><span class="hl">IaC</span><span>VPC architecture</span><span>Route 53</span><span>CloudFront</span><span>IAM &amp; security</span>
+          <span class="hl">AWS SAA-C03</span><span class="hl">Terraform</span><span class="hl">Kubernetes</span><span class="hl">Serverless</span><span class="hl">GitHub Actions · OIDC</span><span class="hl">5G core</span><span class="hl">Bedrock</span><span>Cloud networking</span><span>IAM &amp; security</span>
         </div>
       </div>
       <div class="contact">
