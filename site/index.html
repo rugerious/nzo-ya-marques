@@ -100,6 +100,10 @@
   .vote.up[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: #000; }
   .vote.down[aria-pressed="true"] { background: rgba(232,74,32,.12); border-color: var(--rust); color: var(--rust); }
   .quiet { font-family: var(--mono); font-size: 12px; color: var(--soft); }
+  .list { display: flex; flex-direction: column; gap: 18px; }
+  h3 a, .arrows a, .pleasure em a { color: inherit; text-decoration: none; }
+  h3 a:hover, .arrows a:hover, .pleasure em a:hover { color: var(--blue); text-decoration: underline; }
+  [hidden] { display: none !important; }
 
   .pleasure { background: var(--bg3); border: 1px solid var(--border); padding: 22px 28px; display: flex; flex-direction: column; gap: 6px; }
   .pleasure .k { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--green); }
@@ -253,14 +257,14 @@
 </section>
 
 <main>
-  <p class="note">Conteúdo de exemplo: a forma é a proposta, as notícias entre [ ] são marcadores.</p>
+  <p class="note" id="demo-note">A carregar o briefing de hoje. Se não aparecer, o motor ainda não correu: o que vês são marcadores.</p>
 
   <section class="summary" aria-labelledby="summary">
-    <div class="live">Pronto às 6h30</div>
+    <div class="live" id="live">Todas as manhãs às 6h10</div>
     <h2 id="summary">Hoje em <em>30 segundos</em></h2>
-    <ul class="arrows">
+    <ul class="arrows" id="summary-list">
       <li>[A novidade mais forte do dia, numa linha]</li>
-      <li>[O que vale a pena fazer hoje, se houver]</li>
+      <li>[O que vale a pena ver hoje, se houver]</li>
     </ul>
   </section>
 
@@ -272,43 +276,36 @@
           <span class="s-eyebrow">Claude · AWS · cloud</span>
           <h2 id="core">Núcleo <em>todos os dias</em></h2>
         </div>
-
-        <article class="card">
-          <div class="meta"><span class="tag">Claude</span>anthropic.com · documentação</div>
-          <h3>[Novidade sobre o Claude: plugin, skill ou serviço]</h3>
-          <div class="rows">
-            <div class="row"><span class="lbl">O que é</span><p>[O que é, em duas ou três frases, sem linguagem de marketing.]</p></div>
-            <div class="row"><span class="lbl">É sólido?</span><div class="solid"><span class="dot strong" aria-hidden="true"></span><p>Anúncio oficial com documentação publicada. Já testado por terceiros.</p></div></div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="meta"><span class="tag">Cloud · AWS</span>aws.amazon.com · blog oficial</div>
-          <h3>[Novidade AWS: serviço novo ou mudança relevante]</h3>
-          <div class="rows">
-            <div class="row"><span class="lbl">O que é</span><p>[O que é, em duas ou três frases.]</p></div>
-            <div class="row"><span class="lbl">É sólido?</span><div class="solid"><span class="dot strong" aria-hidden="true"></span><p>Blog oficial da AWS. Disponível na tua região.</p></div></div>
-          </div>
-        </article>
+        <div class="list" id="core-list">
+          <article class="card">
+            <div class="meta"><span class="tag">Cloud · AWS</span>[fonte · data]</div>
+            <h3>[Título da novidade, com link para o original]</h3>
+            <div class="rows">
+              <div class="row"><span class="lbl">É sólido?</span><div class="solid"><span class="dot strong" aria-hidden="true"></span><p>Fonte oficial.</p></div></div>
+            </div>
+          </article>
+        </div>
+        <p class="quiet" id="core-quiet" hidden>Nada novo hoje no núcleo.</p>
       </section>
 
       <section class="sec" aria-labelledby="attention">
         <div class="sec-head">
-          <span class="s-eyebrow">Angola · imobiliário e finanças · telecom/5G</span>
+          <span class="s-eyebrow">Telecom · 5G · telco cloud</span>
           <h2 id="attention">Atenção <em>quando há algo forte</em></h2>
         </div>
-        <article class="card">
-          <div class="meta"><span class="tag amber">Telecom / 5G</span>[fonte]</div>
-          <h3>[Novidade de operador ou da 3GPP com impacto em telco cloud]</h3>
-          <p>[Versão curta: o que é, se é sólido e o que muda para ti, em três linhas.]</p>
-        </article>
-        <p class="quiet">Nada forte hoje em: negócio em Angola, mercado imobiliário e financeiro.</p>
+        <div class="list" id="attention-list">
+          <article class="card">
+            <div class="meta"><span class="tag amber">Telecom / 5G</span>[fonte · data]</div>
+            <h3>[Título da novidade, com link para o original]</h3>
+          </article>
+        </div>
+        <p class="quiet" id="attention-quiet" hidden>Nada forte hoje em telecom e 5G.</p>
       </section>
 
       <section class="pleasure" aria-labelledby="pleasure">
         <span class="k">Destaque do dia · rotativo</span>
-        <h2 id="pleasure">NBA · <em>[o momento da noite]</em></h2>
-        <p>[Um parágrafo curto. Amanhã: carros, depois Portugal, depois Angola.]</p>
+        <h2 id="pleasure"><span id="hl-topic">NBA</span> · <em id="hl-title">[o destaque de hoje]</em></h2>
+        <p id="hl-text">[Fonte e data. Roda todos os dias entre a NBA e Portugal.]</p>
       </section>
 
     </div>
@@ -318,18 +315,19 @@
         <span class="k">// fontes</span>
         <h2 id="sources">De onde vem</h2>
         <ul class="projects">
-          <li><b>Anthropic</b><small>Claude: anúncios e documentação</small></li>
-          <li><b>AWS</b><small>What's New e blogs oficiais</small></li>
-          <li><b>Público</b><small>Portugal</small></li>
+          <li><b>AWS</b><small>What's New e AWS News Blog · oficial</small></li>
+          <li><b>InfoQ</b><small>Claude e Anthropic · imprensa técnica</small></li>
+          <li><b>RCR Wireless</b><small>Telecom e 5G · imprensa técnica</small></li>
           <li><b>ESPN</b><small>NBA</small></li>
+          <li><b>Público</b><small>Portugal</small></li>
         </ul>
-        <p class="quiet">Resumos pelas nossas palavras, sempre com link para o original.</p>
+        <p class="quiet">Só títulos e links: o texto fica sempre no original.</p>
       </section>
 
       <section class="legend" aria-labelledby="legend">
         <h2 id="legend">Como ler «É sólido?»</h2>
-        <div><span class="dot strong" aria-hidden="true"></span>Fonte oficial e testado</div>
-        <div><span class="dot weak" aria-hidden="true"></span>Anúncio ou fonte única, por confirmar</div>
+        <div><span class="dot strong" aria-hidden="true"></span>Fonte oficial</div>
+        <div><span class="dot weak" aria-hidden="true"></span>Imprensa especializada</div>
       </section>
     </aside>
   </div>
@@ -501,7 +499,7 @@
 
 <footer>
   <b>NZO YA MARQUES</b>
-  <span>Escrito às 6h10 · [n] fontes · resumos com link para o original</span>
+  <span id="generated">Todas as manhãs às 6h10 · títulos e links para o original</span>
 </footer>
 
 <script>
@@ -516,6 +514,84 @@
       days[now.getDay()] + ' · ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear() + ' · ~8 min';
   })();
 
+
+  // Daily briefing: /briefing.json is written each morning by the briefing workflow.
+  // Built with textContent only, so nothing from a feed is ever parsed as HTML.
+  (function () {
+    var MONTHS = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+    function el(tag, cls, text) {
+      var n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text != null) n.textContent = text;
+      return n;
+    }
+    function shortDate(iso) {
+      var d = new Date(iso);
+      return isNaN(d) ? '' : d.getDate() + ' ' + MONTHS[d.getMonth()];
+    }
+    function hhmm(iso) {
+      var d = new Date(iso);
+      return isNaN(d) ? '' : String(d.getHours()).padStart(2, '0') + 'h' + String(d.getMinutes()).padStart(2, '0');
+    }
+    function safeUrl(u) {
+      return /^https?:\/\//i.test(u || '') ? u : null;
+    }
+    function link(item) {
+      var url = safeUrl(item.link);
+      if (!url) return document.createTextNode(item.title);
+      var a = el('a', null, item.title);
+      a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      return a;
+    }
+    function card(item, amber) {
+      var art = el('article', 'card');
+      var meta = el('div', 'meta');
+      meta.appendChild(el('span', amber ? 'tag amber' : 'tag', item.tag));
+      meta.appendChild(document.createTextNode(item.source + (item.published ? ' · ' + shortDate(item.published) : '')));
+      art.appendChild(meta);
+      var h3 = el('h3'); h3.appendChild(link(item)); art.appendChild(h3);
+      var rows = el('div', 'rows'), row = el('div', 'row');
+      row.appendChild(el('span', 'lbl', 'É sólido?'));
+      var solid = el('div', 'solid');
+      var dot = el('span', item.official ? 'dot strong' : 'dot weak'); dot.setAttribute('aria-hidden', 'true');
+      solid.appendChild(dot);
+      solid.appendChild(el('p', null, item.official ? 'Fonte oficial.' : 'Imprensa especializada. Confirma no original antes de agir.'));
+      row.appendChild(solid); rows.appendChild(row); art.appendChild(rows);
+      return art;
+    }
+    function fill(listId, quietId, items, amber) {
+      var list = document.getElementById(listId), quiet = document.getElementById(quietId);
+      list.replaceChildren();
+      (items || []).forEach(function (it) { list.appendChild(card(it, amber)); });
+      quiet.hidden = (items || []).length > 0;
+    }
+
+    fetch('/briefing.json', { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (data) {
+        var s = data.sections || {};
+        fill('core-list', 'core-quiet', s.core, false);
+        fill('attention-list', 'attention-quiet', s.attention, true);
+
+        var top = [].concat(s.core || [], s.attention || []).slice(0, 3);
+        var ul = document.getElementById('summary-list');
+        ul.replaceChildren();
+        top.forEach(function (it) { var li = el('li'); li.appendChild(link(it)); ul.appendChild(li); });
+
+        var hl = data.highlight;
+        if (hl && hl.item) {
+          document.getElementById('hl-topic').textContent = hl.topic;
+          var t = document.getElementById('hl-title'); t.replaceChildren(link(hl.item));
+          document.getElementById('hl-text').textContent = hl.item.source + (hl.item.published ? ' · ' + shortDate(hl.item.published) : '');
+        }
+
+        document.getElementById('live').textContent = 'Atualizado às ' + hhmm(data.generated_at);
+        document.getElementById('generated').textContent =
+          'Atualizado às ' + hhmm(data.generated_at) + ' de ' + shortDate(data.generated_at) + ' · ' + data.sources_ok + ' fontes · títulos e links para o original';
+        document.getElementById('demo-note').hidden = true;
+      })
+      .catch(function () { /* keep the placeholders */ });
+  })();
 </script>
 </body>
 </html>

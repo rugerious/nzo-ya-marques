@@ -24,6 +24,14 @@ jobs:
       - run: terraform init -backend=false -input=false
       - run: terraform validate
 
+  briefing:
+    name: briefing (config)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: python3 -I -m py_compile briefing/build.py
+      - run: python3 -I briefing/build.py --check
+
   secrets:
     name: secrets (gitleaks)
     runs-on: ubuntu-latest

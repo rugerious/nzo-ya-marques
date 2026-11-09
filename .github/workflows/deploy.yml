@@ -31,7 +31,8 @@ jobs:
           mask-aws-account-id: true
 
       - name: Upload to S3
-        run: aws s3 sync site/ "s3://${{ secrets.SITE_BUCKET }}" --delete
+        # briefing.json is written by the briefing workflow, so a site deploy must not delete it
+        run: aws s3 sync site/ "s3://${{ secrets.SITE_BUCKET }}" --delete --exclude "briefing.json"
 
       - name: Clear CloudFront cache
         run: >
