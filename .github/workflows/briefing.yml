@@ -28,7 +28,7 @@ jobs:
       - name: Sanity check
         run: python3 -I -c "import json; d = json.load(open('briefing.json')); print(d['sources_ok'], 'sources ok, failed:', d['sources_failed'])"
 
-      - uses: aws-actions/configure-aws-credentials@v6.3.0 # 22 Jul 2026, Node 24
+      - uses: aws-actions/configure-aws-credentials@v6.3.0 # Node 24
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
           aws-region: eu-west-2
