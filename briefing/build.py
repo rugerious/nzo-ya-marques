@@ -98,7 +98,10 @@ def parse_feed(data):
 
 
 def collect(feeds, max_age, status):
-    """Newest items per feed, each feed sorted newest first."""
+    """Newest items per feed, each feed sorted newest first.
+
+    A feed may set its own "max_age_days" (slow blogs need a wider window).
+    """
     now = dt.datetime.now(dt.timezone.utc)
     per_feed = []
     for feed in feeds:
@@ -109,10 +112,11 @@ def collect(feeds, max_age, status):
             status["failed"].append(feed["name"])
             continue
         status["ok"] += 1
+        window = dt.timedelta(days=feed["max_age_days"]) if "max_age_days" in feed else max_age
         items = []
         for e in raw:
             title, link, when = clean_text(e["title"]), clean_link(e["link"]), parse_date(e["date"])
-            if not title or not link or (when and now - when > max_age):
+            if not title or not link or (when and now - when > window):
                 continue
             items.append({
                 "title": title,
@@ -148,6 +152,8 @@ def main():
     config = json.loads(CONFIG.read_text(encoding="utf-8"))
     for name, section in config["sections"].items():
         assert section["items"] > 0 and section["feeds"], name
+        for feed in section["feeds"]:
+            assert feed.get("max_age_days", 1) > 0, feed["name"]
     assert config["highlight"], "highlight rotation is empty"
     if "--check" in sys.argv:
         log("config ok")
