@@ -6,15 +6,37 @@
     "core": {
       "items": 3,
       "feeds": [
-        { "name": "InfoQ", "url": "https://feed.infoq.com/anthropic/", "tag": "Claude", "official": false, "max_age_days": 14 },
-        { "name": "AWS What's New", "url": "https://aws.amazon.com/about-aws/whats-new/recent/feed/", "tag": "Cloud · AWS", "official": true },
-        { "name": "AWS News Blog", "url": "https://aws.amazon.com/blogs/aws/feed/", "tag": "Cloud · AWS", "official": true, "max_age_days": 7 }
+        {
+          "name": "InfoQ",
+          "url": "https://feed.infoq.com/anthropic/",
+          "tag": "Claude",
+          "official": false,
+          "max_age_days": 14
+        },
+        {
+          "name": "AWS What's New",
+          "url": "https://aws.amazon.com/about-aws/whats-new/recent/feed/",
+          "tag": "Cloud · AWS",
+          "official": true
+        },
+        {
+          "name": "AWS News Blog",
+          "url": "https://aws.amazon.com/blogs/aws/feed/",
+          "tag": "Cloud · AWS",
+          "official": true,
+          "max_age_days": 7
+        }
       ]
     },
     "attention": {
       "items": 2,
       "feeds": [
-        { "name": "RCR Wireless", "url": "https://www.rcrwireless.com/feed", "tag": "Telecom / 5G", "official": false }
+        {
+          "name": "RCR Wireless",
+          "url": "https://www.rcrwireless.com/feed",
+          "tag": "Telecom / 5G",
+          "official": false
+        }
       ]
     }
   },
@@ -25,7 +47,16 @@
     "rugerious/nzo-ya-marques"
   ],
   "highlight": [
-    { "topic": "NBA", "feeds": [ { "name": "ESPN", "url": "https://www.espn.com/espn/rss/nba/news", "tag": "NBA", "official": false } ] },
-    { "topic": "Portugal", "feeds": [ { "name": "Público", "url": "https://feeds.feedburner.com/PublicoRSS", "tag": "Portugal", "official": false } ] }
+    {
+      "topic": "NBA",
+      "feeds": [
+        {
+          "name": "ESPN",
+          "url": "https://www.espn.com/espn/rss/nba/news",
+          "tag": "NBA",
+          "official": false
+        }
+      ]
+    }
   ]
 }

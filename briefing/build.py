@@ -30,7 +30,9 @@ TIMEOUT = 20
 NS = {
     "atom": "http://www.w3.org/2005/Atom",
     "dc": "http://purl.org/dc/elements/1.1/",
+    "media": "http://search.yahoo.com/mrss/",
 }
+IMAGE_EXT = (".jpg", ".jpeg", ".png", ".webp", ".gif")
 
 
 def log(msg):
@@ -61,6 +63,34 @@ def clean_link(url):
     return urllib.parse.urlunsplit(parts._replace(query=urllib.parse.urlencode(query)))
 
 
+def find_image(node):
+    """The article's thumbnail as the feed declares it (https only), or None.
+
+    Looks at media:thumbnail, media:content, enclosure and a plain <image>.
+    The page shows it from the publisher's own server; we never copy it.
+    """
+    candidates = []
+    for el in node.iter():
+        tag = el.tag.split("}")[-1]
+        url = el.get("url") or el.get("href")
+        if tag == "thumbnail" and url:
+            candidates.append((0, url))
+        elif tag in ("content", "enclosure", "link") and url:
+            kind = (el.get("type") or el.get("medium") or "").lower()
+            rel = (el.get("rel") or "").lower()
+            if tag == "link" and rel != "enclosure":
+                continue
+            if kind.startswith("image") or url.lower().split("?")[0].endswith(IMAGE_EXT):
+                candidates.append((1, url))
+        elif tag == "image" and (el.text or "").strip().startswith("https://"):
+            candidates.append((2, el.text.strip()))
+    for _, url in sorted(candidates, key=lambda c: c[0]):
+        url = clean_link(url)
+        if url and url.startswith("https://"):
+            return url
+    return None
+
+
 def parse_date(text):
     text = (text or "").strip()
     if not text:
@@ -85,6 +115,7 @@ def parse_feed(data):
             "title": item.findtext("title"),
             "link": item.findtext("link"),
             "date": item.findtext("pubDate") or item.findtext("dc:date", namespaces=NS),
+            "image": find_image(item),
         })
     for entry in root.iter("{%s}entry" % NS["atom"]):  # Atom
         link = entry.find("atom:link[@rel='alternate']", NS)
@@ -94,6 +125,7 @@ def parse_feed(data):
             "title": entry.findtext("atom:title", namespaces=NS),
             "link": link.get("href") if link is not None else None,
             "date": entry.findtext("atom:published", namespaces=NS) or entry.findtext("atom:updated", namespaces=NS),
+            "image": find_image(entry),
         })
     return entries
 
@@ -126,6 +158,7 @@ def collect(feeds, max_age, status):
                 "tag": feed.get("tag", ""),
                 "official": bool(feed.get("official")),
                 "published": when.isoformat() if when else None,
+                "image": e.get("image"),
             })
         items.sort(key=lambda i: i["published"] or "", reverse=True)
         log("ok   %s: %d recent" % (feed["name"], len(items)))
