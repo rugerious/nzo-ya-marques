@@ -2,7 +2,7 @@ name: briefing
 
 on:
   schedule:
-    - cron: "10 6 * * *" # 06:10 UTC: 06:10 in London in winter, 07:10 in summer
+    - cron: "10 */3 * * *" # every 3 hours from 00:10 UTC (06:10, 09:10, ...): a skipped run is covered by the next
   workflow_dispatch:
 
 permissions:
