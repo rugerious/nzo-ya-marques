@@ -2,6 +2,7 @@
   "_comment": "Public briefing sources. Titles and links only; the text stays on the original site. Add or remove feeds with a PR.",
   "max_age_days": 4,
   "_max_age": "Default window in days; a feed can override it with its own max_age_days.",
+  "_page_image": "Feeds with page_image true get their thumbnail from the article page's og:image when the feed has none.",
   "sections": {
     "core": {
       "items": 3,
@@ -24,7 +25,8 @@
           "url": "https://aws.amazon.com/blogs/aws/feed/",
           "tag": "Cloud · AWS",
           "official": true,
-          "max_age_days": 7
+          "max_age_days": 7,
+          "page_image": true
         }
       ]
     },
@@ -35,7 +37,8 @@
           "name": "RCR Wireless",
           "url": "https://www.rcrwireless.com/feed",
           "tag": "Telecom / 5G",
-          "official": false
+          "official": false,
+          "page_image": true
         }
       ]
     }
@@ -51,10 +54,11 @@
       "topic": "NBA",
       "feeds": [
         {
-          "name": "ESPN",
-          "url": "https://www.espn.com/espn/rss/nba/news",
+          "name": "The Guardian",
+          "url": "https://www.theguardian.com/sport/nba/rss",
           "tag": "NBA",
-          "official": false
+          "official": false,
+          "max_age_days": 7
         }
       ]
     }
