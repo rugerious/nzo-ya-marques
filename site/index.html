@@ -65,8 +65,9 @@
   .eyebrow { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); }
   .eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--blue); }
   h1 { font-family: var(--display); font-weight: 400; font-size: clamp(56px, 9vw, 96px); line-height: .87; letter-spacing: .02em; }
-  h1 .name { color: var(--amber); transition: text-shadow .6s, opacity .5s; }
-  h1 .name.name-wait { opacity: 0; }
+  h1 .hi-line { display: block; margin-top: .3em; font-size: .46em; line-height: 1; letter-spacing: .05em; color: var(--ink); transition: opacity .5s; }
+  h1 .hi-line.hi-wait { opacity: 0; }
+  h1 .name { color: var(--amber); transition: text-shadow .6s; }
   h1 .name.glow { text-shadow: 0 0 18px rgba(245,166,35,.7); }
   .motto { transition: opacity .8s; }
   .wx { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; margin-top: 10px; font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--soft); }
@@ -301,7 +302,7 @@
   <canvas id="rain" aria-hidden="true"></canvas>
   <div class="hero-in">
     <div class="eyebrow" id="today">Today · 5 min read</div>
-    <h1 id="hello"><span id="greet">GOOD MORNING</span>, <span class="name">ROGÉRIO.</span></h1>
+    <h1 id="hello"><span id="greet">GOOD MORNING</span>.<span class="hi-line">WELCOME TO THE <span class="name">HOUSE OF MARQUES.</span></span></h1>
     <p class="motto">Skills don't expire. Fear does.</p>
     <div class="wx" id="wx" role="group" aria-label="Weather now" hidden><a class="wx-src" href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather by Open-Meteo.com</a></div>
   </div>
@@ -643,11 +644,11 @@
     ];
     var SCRAMBLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&/';
     var h1 = document.getElementById('hello');
-    var greetEl = document.getElementById('greet'), nameEl = h1.querySelector('.name');
+    var greetEl = document.getElementById('greet'), welcomeEl = h1.querySelector('.hi-line'), nameEl = h1.querySelector('.name');
     var motto = document.querySelector('.motto');
-    var finalGreet = greetEl.textContent, finalName = nameEl.textContent;
-    h1.setAttribute('aria-label', finalGreet.charAt(0) + finalGreet.slice(1).toLowerCase() + ', Rogério.');
-    greetEl.setAttribute('aria-hidden', 'true'); nameEl.setAttribute('aria-hidden', 'true');
+    var finalGreet = greetEl.textContent;
+    h1.setAttribute('aria-label', finalGreet.charAt(0) + finalGreet.slice(1).toLowerCase() + '. Welcome to the house of Marques.');
+    greetEl.setAttribute('aria-hidden', 'true'); welcomeEl.setAttribute('aria-hidden', 'true');
 
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var canvas = document.getElementById('rain');
@@ -670,10 +671,10 @@
 
     motto.classList.add('motto-wait');
     scramble(greetEl, finalGreet, 900, 900);
-    // The name is never scrambled: it fades in already spelled right, then glows.
-    nameEl.classList.add('name-wait');
+    // The welcome line is never scrambled: it fades in already spelled right, then the name glows.
+    welcomeEl.classList.add('hi-wait');
     setTimeout(function () {
-      nameEl.classList.remove('name-wait');
+      welcomeEl.classList.remove('hi-wait');
       nameEl.classList.add('glow');
       motto.classList.remove('motto-wait');
       setTimeout(function () { nameEl.classList.remove('glow'); }, 1200);
