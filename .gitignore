@@ -16,3 +16,6 @@ crash.log
 *.pem
 .DS_Store
 Thumbs.db
+
+# Python bytecode cache
+__pycache__/
