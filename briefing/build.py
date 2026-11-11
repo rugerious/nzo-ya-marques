@@ -64,31 +64,95 @@ def clean_link(url):
 
 
 def find_image(node):
-    """The article's thumbnail as the feed declares it (https only), or None.
+    """The article's thumbnail (https only), or None.
 
-    Looks at media:thumbnail, media:content, enclosure and a plain <image>.
-    The page shows it from the publisher's own server; we never copy it.
+    First what the feed declares: media:thumbnail, media:content, enclosure,
+    a plain <image>; among several sizes, the widest wins. Failing that, the
+    first real <img> inside the item's own HTML (description, content:encoded,
+    Atom content/summary). The page shows it from the publisher's own server;
+    we never copy it.
     """
     candidates = []
     for el in node.iter():
         tag = el.tag.split("}")[-1]
         url = el.get("url") or el.get("href")
+        width = int(el.get("width")) if (el.get("width") or "").isdigit() else 0
         if tag == "thumbnail" and url:
-            candidates.append((0, url))
+            candidates.append((0, -width, url))
         elif tag in ("content", "enclosure", "link") and url:
             kind = (el.get("type") or el.get("medium") or "").lower()
             rel = (el.get("rel") or "").lower()
             if tag == "link" and rel != "enclosure":
                 continue
             if kind.startswith("image") or url.lower().split("?")[0].endswith(IMAGE_EXT):
-                candidates.append((1, url))
+                candidates.append((1, -width, url))
         elif tag == "image" and (el.text or "").strip().startswith("https://"):
-            candidates.append((2, el.text.strip()))
-    for _, url in sorted(candidates, key=lambda c: c[0]):
-        url = clean_link(url)
+            candidates.append((2, 0, el.text.strip()))
+    for _, _, url in sorted(candidates, key=lambda c: (c[0], c[1])):
+        url = clean_link(html.unescape(url))
         if url and url.startswith("https://"):
             return url
+    return inline_image(node)
+
+
+IMG_TAG = re.compile(r"<img\b[^>]*>", re.I)
+IMG_SRC = re.compile(r"""\bsrc\s*=\s*["']([^"']+)["']""", re.I)
+IMG_WIDTH = re.compile(r"""\bwidth\s*=\s*["']?(\d+)""", re.I)
+# Pixels, avatars and emoji are not article pictures.
+NOT_A_PHOTO = ("feedburner", "gravatar.com", "s.w.org/images/core/emoji", "pixel", "/avatar")
+
+
+def inline_image(node):
+    """First real <img> in the item's HTML fields, https only, or None."""
+    for el in node.iter():
+        if el.tag.split("}")[-1] not in ("description", "encoded", "content", "summary"):
+            continue
+        for tag in IMG_TAG.findall(el.text or ""):
+            src = IMG_SRC.search(tag)
+            width = IMG_WIDTH.search(tag)
+            if not src or (width and int(width.group(1)) < 100):
+                continue
+            url = clean_link(html.unescape(src.group(1)))
+            if url and url.startswith("https://") and not any(b in url.lower() for b in NOT_A_PHOTO):
+                return url
     return None
+
+
+OG_IMAGE = re.compile(
+    r"""<meta\b[^>]*(?:property|name)\s*=\s*["'](?:og:image|twitter:image)["'][^>]*>""", re.I)
+META_CONTENT = re.compile(r"""\bcontent\s*=\s*["']([^"']+)["']""", re.I)
+PAGE_BYTES = 400_000
+
+
+def page_image(url):
+    """The og:image the article page declares for link previews, or None.
+
+    Only for feeds that opt in with "page_image": true, and only for the few
+    items actually shown. Reads the page head; never the article text.
+    """
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+            head = resp.read(PAGE_BYTES).decode("utf-8", "replace")
+    except Exception as exc:
+        log("no page image %s: %s" % (url, exc))
+        return None
+    for tag in OG_IMAGE.findall(head):
+        content = META_CONTENT.search(tag)
+        if content:
+            img = clean_link(html.unescape(content.group(1)))
+            if img and img.startswith("https://"):
+                return img
+    return None
+
+
+def add_page_images(items, feeds):
+    """Fill missing thumbnails from the article page, for opted-in feeds."""
+    wanted = {f["name"] for f in feeds if f.get("page_image")}
+    for item in items:
+        if not item["image"] and item["source"] in wanted:
+            item["image"] = page_image(item["link"])
+    return items
 
 
 def parse_date(text):
@@ -231,13 +295,13 @@ def main():
     max_age = dt.timedelta(days=config["max_age_days"])
     status = {"ok": 0, "failed": []}
     sections = {
-        name: round_robin(collect(s["feeds"], max_age, status), s["items"])
+        name: add_page_images(round_robin(collect(s["feeds"], max_age, status), s["items"]), s["feeds"])
         for name, s in config["sections"].items()
     }
 
     today = dt.datetime.now(dt.timezone.utc).date()
     pick = config["highlight"][today.toordinal() % len(config["highlight"])]
-    hl_items = round_robin(collect(pick["feeds"], dt.timedelta(days=2), status), 1)
+    hl_items = add_page_images(round_robin(collect(pick["feeds"], dt.timedelta(days=2), status), 1), pick["feeds"])
 
     projects = github_projects(config.get("projects", []), status)
 
