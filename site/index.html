@@ -70,6 +70,10 @@
   h1 .name { color: var(--amber); transition: text-shadow .6s; }
   h1 .name.glow { text-shadow: 0 0 18px rgba(245,166,35,.7); }
   .motto { transition: opacity .8s; }
+  .host { font-family: var(--mono); font-size: 13px; line-height: 1.7; color: var(--text); max-width: 640px; }
+  .host b { color: var(--ink); font-weight: 500; }
+  .host a { color: var(--blue); text-decoration: none; border-bottom: 1px solid rgba(59,158,255,.35); white-space: nowrap; }
+  .host a:hover { color: var(--blue2); border-bottom-color: var(--blue2); }
   .wx { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; margin-top: 10px; font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--soft); }
   .wx-item { display: inline-flex; align-items: center; gap: 8px; }
   .wx-item svg { color: var(--blue); flex: none; }
@@ -111,7 +115,8 @@
   .lbl { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); min-width: 92px; padding-top: 4px; flex: none; }
   .row p, .card > p { color: var(--text); }
   .solid { display: flex; gap: 8px; align-items: flex-start; }
-  .dot { flex: none; width: 12px; height: 12px; margin-top: 7px; border-radius: 50%; }
+  .dot { flex: none; width: 10px; height: 10px; border-radius: 50%; }
+  .src { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
   .dot.strong { background: var(--green); }
   .dot.weak { border: 2px solid var(--amber); }
   .todo { border-left: 2px solid var(--amber); background: rgba(245,166,35,.05); padding: 10px 16px; display: flex; flex-direction: column; gap: 2px; }
@@ -129,15 +134,15 @@
   h3 a:hover, .arrows a:hover, .pleasure em a:hover { color: var(--blue); text-decoration: underline; }
   [hidden] { display: none !important; }
   .card.has-img { display: grid; grid-template-columns: minmax(0, 1fr) 168px; column-gap: 22px; align-items: start; }
-  .card.has-img > .thumb { grid-column: 2; grid-row: 1 / span 4; }
+  .card.has-img > .thumb { grid-column: 2; grid-row: 1 / span 2; }
   .card.has-img > :not(.thumb) { grid-column: 1; }
   .thumb { width: 168px; height: 112px; object-fit: cover; border: 1px solid var(--border); background: var(--surface); display: block; }
   .pleasure.has-img { display: grid; grid-template-columns: minmax(0, 1fr) 168px; column-gap: 22px; align-items: start; }
   .pleasure.has-img > .thumb { grid-column: 2; grid-row: 1 / span 3; }
   .pleasure.has-img > :not(.thumb) { grid-column: 1; }
   @media (max-width: 560px) {
-    .card.has-img, .pleasure.has-img { display: flex; }
-    .card.has-img > .thumb, .pleasure.has-img > .thumb { order: -1; width: 100%; height: 170px; }
+    .card.has-img, .pleasure.has-img { grid-template-columns: minmax(0, 1fr) 88px; column-gap: 14px; }
+    .card.has-img > .thumb, .pleasure.has-img > .thumb { width: 88px; height: 66px; }
   }
   .projects b a { color: var(--ink); text-decoration: none; }
   .projects b a:hover { color: var(--blue); text-decoration: underline; }
@@ -255,9 +260,9 @@
   .now p { color: var(--soft); max-width: 640px; line-height: 1.85; }
   .now .tags span { font-size: 10px; padding: 6px 14px; }
 
-  .contact { display: flex; gap: 24px; flex-wrap: wrap; }
-  .contact a { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--soft); text-decoration: none; padding: 12px 0; }
-  .contact a:hover { color: var(--amber); }
+  .contact { display: flex; flex-direction: column; gap: 20px; }
+  .contact-title { font-family: var(--display); font-size: clamp(30px, 4vw, 44px); line-height: 1; color: var(--ink); }
+  .contact-title em { font-family: var(--serif); font-style: italic; color: var(--amber); }
 
   @media (max-width: 860px) {
     .p-hero-in { padding: 52px 20px 44px; }
@@ -303,6 +308,7 @@
   <div class="hero-in">
     <div class="eyebrow" id="today">Today · 5 min read</div>
     <h1 id="hello"><span id="greet">GOOD MORNING</span>.<span class="hi-line">WELCOME TO THE <span class="name">HOUSE OF MARQUES.</span></span></h1>
+    <p class="host">I'm <b>Rogério</b>: mobile networks engineer, 2G to 5G, now building on AWS. <a href="#core">Today's briefing</a> <span aria-hidden="true">·</span> <a href="#percurso">My journey</a></p>
     <p class="motto">Skills don't expire. Fear does.</p>
     <div class="wx" id="wx" role="group" aria-label="Weather now" hidden><a class="wx-src" href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather by Open-Meteo.com</a></div>
   </div>
@@ -330,11 +336,8 @@
         </div>
         <div class="list" id="core-list">
           <article class="card">
-            <div class="meta"><span class="tag">Cloud · AWS</span>[source · date]</div>
+            <div class="meta"><span class="tag">Cloud · AWS</span><span class="src"><span class="dot strong" role="img" aria-label="Official source" title="Official source"></span>[source · date]</span></div>
             <h3>[Headline, linked to the original]</h3>
-            <div class="rows">
-              <div class="row"><span class="lbl">Solid?</span><div class="solid"><span class="dot strong" aria-hidden="true"></span><p>Official source.</p></div></div>
-            </div>
           </article>
         </div>
         <p class="quiet" id="core-quiet" hidden>Nothing new in the core today.</p>
@@ -363,7 +366,7 @@
 
     </div>
 
-    <aside class="col-side" aria-label="Contexto">
+    <aside class="col-side" aria-label="Context">
       <section class="panel" aria-labelledby="projects">
         <span class="k">// github · rugerious</span>
         <h2 id="projects">Projects</h2>
@@ -388,7 +391,7 @@
       </section>
 
       <section class="legend" aria-labelledby="legend">
-        <h2 id="legend">How to read “Solid?”</h2>
+        <h2 id="legend">How to read the dots</h2>
         <div><span class="dot strong" aria-hidden="true"></span>Official source</div>
         <div><span class="dot weak" aria-hidden="true"></span>Trade or tech press</div>
       </section>
@@ -452,7 +455,7 @@
         </div>
         <div class="skill">
           <h3>Networks, 2G to 5G Core</h3>
-          <p>15 years deep, from submarine fibre to 5G RAN. Now running a 5G standalone core and a simulated radio in the cloud: the UE attaches and pings.</p>
+          <p>From submarine fibre to 5G RAN. Now running a 5G standalone core and a simulated radio in the cloud: the UE attaches and pings.</p>
           <div class="tags"><span class="hl">5G SA core</span><span class="hl">Open5GS</span><span class="hl">OCUDU · srsUE</span><span>5G RAN</span><span>LTE</span><span>BGP/OSPF</span><span>Fibre optic</span></div>
         </div>
         <div class="skill">
@@ -585,7 +588,7 @@
     <ul class="m-lines">
       <li>Comfort is expensive. Every time I got comfortable, I stopped learning.</li>
       <li>Every time the next step felt scary, that was the signal. Go there.</li>
-      <li>15 years. 5 companies. 4 countries. The signal never stopped transmitting.</li>
+      <li>Five companies. Four countries. The signal never stopped transmitting.</li>
       <li>Now it's reaching the cloud. And it's not stopping there either.</li>
     </ul>
     <div class="pills">
@@ -601,16 +604,19 @@
       </div>
       <div class="now">
         <div class="live">Live · in progress</div>
-        <h3>AWS Solutions Architect.<br><em>Making the leap.</em></h3>
-        <p>15 years of knowing how networks physically work, now applied to cloud architecture. Pursuing AWS SAA-C03. Three systems running on AWS, all in Terraform and all deployed over OIDC with no stored keys: a serverless incident platform with AI triage, a cloud-native 5G lab on Kubernetes, and a real-time chat my family uses every day. This site too: S3 and CloudFront, a briefing built from RSS every few hours. Every project on GitHub. One commit at a time.</p>
+        <h3>On the way to<br><em>AWS Solutions Architect.</em></h3>
+        <p>Everything I know about how networks physically work, now applied to cloud architecture. Pursuing AWS SAA-C03. Three systems running on AWS, all in Terraform and all deployed over OIDC with no stored keys: a serverless incident platform with AI triage, a cloud-native 5G lab on Kubernetes, and a real-time chat my family uses every day. This site too: S3 and CloudFront, a briefing built from RSS every few hours. Every project on GitHub. One commit at a time.</p>
         <div class="tags">
           <span class="hl">AWS SAA-C03</span><span class="hl">Terraform</span><span class="hl">Kubernetes</span><span class="hl">Serverless</span><span class="hl">GitHub Actions · OIDC</span><span class="hl">5G core</span><span class="hl">Bedrock</span><span>Cloud networking</span><span>IAM &amp; security</span>
         </div>
       </div>
       <div class="contact">
-        <a href="mailto:paulormartinho@gmail.com">Email</a>
-        <a href="https://www.linkedin.com/in/paulo-martinho-5957ab69/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://github.com/rugerious" target="_blank" rel="noopener">GitHub</a>
+        <p class="contact-title">Building something on cloud or telecom? <em>Let's talk.</em></p>
+        <div class="btns">
+          <a href="https://www.linkedin.com/in/paulo-martinho-5957ab69/" class="btn btn-fill" target="_blank" rel="noopener">Connect on LinkedIn</a>
+          <a href="mailto:paulormartinho@gmail.com" class="btn">Email me</a>
+          <a href="https://github.com/rugerious" class="btn" target="_blank" rel="noopener">GitHub</a>
+        </div>
       </div>
     </div>
   </div>
@@ -770,16 +776,15 @@
       var art = el('article', 'card');
       var meta = el('div', 'meta');
       meta.appendChild(el('span', amber ? 'tag amber' : 'tag', item.tag));
-      meta.appendChild(document.createTextNode(item.source + (item.published ? ' · ' + shortDate(item.published) : '')));
+      var label = item.official ? 'Official source' : 'Trade or tech press';
+      var dot = el('span', item.official ? 'dot strong' : 'dot weak');
+      dot.setAttribute('role', 'img'); dot.setAttribute('aria-label', label); dot.title = label;
+      var src = el('span', 'src');
+      src.appendChild(dot);
+      src.appendChild(document.createTextNode(item.source + (item.published ? ' · ' + shortDate(item.published) : '')));
+      meta.appendChild(src);
       art.appendChild(meta);
       var h3 = el('h3'); h3.appendChild(link(item)); art.appendChild(h3);
-      var rows = el('div', 'rows'), row = el('div', 'row');
-      row.appendChild(el('span', 'lbl', 'Solid?'));
-      var solid = el('div', 'solid');
-      var dot = el('span', item.official ? 'dot strong' : 'dot weak'); dot.setAttribute('aria-hidden', 'true');
-      solid.appendChild(dot);
-      solid.appendChild(el('p', null, item.official ? 'Official source.' : 'Trade or tech press. Check the original before acting on it.'));
-      row.appendChild(solid); rows.appendChild(row); art.appendChild(rows);
       var img = thumb(item);
       if (img) { art.classList.add('has-img'); art.insertBefore(img, art.firstChild); }
       return art;
@@ -798,7 +803,8 @@
         fill('core-list', 'core-quiet', s.core, false);
         fill('attention-list', 'attention-quiet', s.attention, true);
 
-        var top = [].concat(s.core || [], s.attention || []).slice(0, 3);
+        // One from each strand, so the summary doesn't repeat the list right below it.
+        var top = [(s.core || [])[0], (s.attention || [])[0], data.highlight && data.highlight.item].filter(Boolean);
         var ul = document.getElementById('summary-list');
         ul.replaceChildren();
         top.forEach(function (it) { var li = el('li'); li.appendChild(link(it)); ul.appendChild(li); });
