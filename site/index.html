@@ -32,13 +32,16 @@
 
   .welcome { background: var(--amber); color: #000; text-align: center; padding: 10px 20px; font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
 
-  header { border-bottom: 1px solid var(--border); }
+  header { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--border); background: rgba(8,10,15,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  [id] { scroll-margin-top: 84px; }
   .bar { max-width: 1140px; margin: 0 auto; padding: 18px 52px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
   .logo { font-family: var(--display); font-size: 22px; letter-spacing: .1em; color: var(--ink); text-decoration: none; }
   .logo span { color: var(--amber); }
   nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
   nav a { padding: 12px 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); text-decoration: none; }
-  nav a[aria-current="page"] { color: var(--amber); border-bottom: 1px solid var(--amber); }
+  nav .links { display: flex; align-items: center; gap: 2px; }
+  nav a:hover { color: var(--ink); }
+  nav a[aria-current] { color: var(--amber); box-shadow: inset 0 -1px 0 var(--amber); }
 
   /* Kuribotas puzzle: KUR_S / BOTIA solves to KURI_ / BOTAS, then glows */
   .kb { position: relative; display: block; width: 88px; height: 34px; margin-left: 10px; animation: kbGlow 8s ease-in-out infinite; }
@@ -72,8 +75,6 @@
   .motto { transition: opacity .8s; }
   .host { font-family: var(--mono); font-size: 13px; line-height: 1.7; color: var(--text); max-width: 640px; }
   .host b { color: var(--ink); font-weight: 500; }
-  .host a { color: var(--blue); text-decoration: none; border-bottom: 1px solid rgba(59,158,255,.35); white-space: nowrap; }
-  .host a:hover { color: var(--blue2); border-bottom-color: var(--blue2); }
   .wx { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; margin-top: 10px; font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--soft); }
   .wx-item { display: inline-flex; align-items: center; gap: 8px; }
   .wx-item svg { color: var(--blue); flex: none; }
@@ -173,6 +174,14 @@
 
   @media (max-width: 860px) {
     .bar { padding: 14px 20px; }
+    [id] { scroll-margin-top: 120px; }
+    nav { width: 100%; flex-wrap: nowrap; justify-content: space-between; }
+    nav .links { overflow-x: auto; scrollbar-width: none; }
+    nav .links::-webkit-scrollbar { display: none; }
+    nav a { padding: 10px 8px; letter-spacing: .1em; white-space: nowrap; }
+    .bar { position: relative; }
+    nav .kb { position: absolute; right: 20px; top: 16px; margin: 0; }
+    nav .links { margin-left: -8px; }
     .hero-in { padding: 40px 20px 36px; }
     main { padding: 28px 20px 64px; gap: 28px; }
     .summary { padding: 22px 20px; }
@@ -293,8 +302,13 @@
   <div class="bar">
     <a href="/" class="logo">NZO <span>YA</span> MARQUES</a>
     <nav aria-label="Sections">
-      <a href="#briefing">Briefing</a>
-      <a href="#percurso">Journey</a>
+      <div class="links">
+        <a href="#news">Radar</a>
+        <a href="#skills">Skills</a>
+        <a href="#built">Projects</a>
+        <a href="#journey">Experience</a>
+        <a href="#contact">Contact</a>
+      </div>
       <span class="kb" role="img" aria-label="Kuribotas">
         <span class="c t0 x0">K</span><span class="c t0 x1">U</span><span class="c t0 x2">R</span><span class="a t0 x4 ms">S</span>
         <span class="a t1 x0">B</span><span class="a t1 x1">O</span><span class="a t1 x2">T</span><span class="c t1 x3 mi">I</span><span class="a t1 x4 ma">A</span>
@@ -308,13 +322,13 @@
   <div class="hero-in">
     <div class="eyebrow" id="today">Today · 5 min read</div>
     <h1 id="hello"><span id="greet">GOOD MORNING</span>.<span class="hi-line">WELCOME TO THE <span class="name">HOUSE OF MARQUES.</span></span></h1>
-    <p class="host">I'm <b>Rogério</b>: mobile networks engineer, 2G to 5G, now building on AWS. <a href="#core">Today's briefing</a> <span aria-hidden="true">·</span> <a href="#percurso">My journey</a></p>
+    <p class="host">I'm <b>Rogério</b>. From an incident platform to a 5G core on Kubernetes, I build and run real systems on AWS, all in Terraform.</p>
     <p class="motto">Skills don't expire. Fear does.</p>
     <div class="wx" id="wx" role="group" aria-label="Weather now" hidden><a class="wx-src" href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather by Open-Meteo.com</a></div>
   </div>
 </section>
 
-<main>
+<main id="news">
   <p class="note" id="demo-note">Loading today's briefing. If nothing appears, the latest run hasn't landed yet and these are placeholders.</p>
 
   <section class="summary" aria-labelledby="summary">
@@ -331,7 +345,7 @@
 
       <section class="sec" aria-labelledby="core">
         <div class="sec-head">
-          <span class="s-eyebrow">Claude · AWS · cloud</span>
+          <span class="s-eyebrow">AWS · cloud · engineering</span>
           <h2 id="core">Core <em>every day</em></h2>
         </div>
         <div class="list" id="core-list">
@@ -383,7 +397,7 @@
         <h2 id="sources">Where it comes from</h2>
         <ul class="projects">
           <li><b>AWS</b><small>What's New and AWS News Blog · official</small></li>
-          <li><b>InfoQ</b><small>Claude and Anthropic · tech press</small></li>
+          <li><b>InfoQ</b><small>Engineering · tech press</small></li>
           <li><b>RCR Wireless</b><small>Telecom and 5G · trade press</small></li>
           <li><b>The Guardian</b><small>NBA</small></li>
         </ul>
@@ -420,10 +434,10 @@
   </div>
 
   <div class="stats">
-    <div class="stat"><b>15+</b><span>Years in telecom</span></div>
+    <div class="stat"><b>3</b><span>Systems live on AWS</span></div>
+    <div class="stat"><b style="color:var(--blue)">0</b><span>Stored keys</span></div>
+    <div class="stat"><b>15+</b><span>Years in networks</span></div>
     <div class="stat"><b>5</b><span>Major companies</span></div>
-    <div class="stat"><b>2G→5G</b><span>Full-stack telecom</span></div>
-    <div class="stat"><b style="color:var(--blue)">AWS</b><span>Next chapter</span></div>
   </div>
 
   <div class="wrap">
@@ -474,9 +488,9 @@
           <div class="tags"><span class="hl">Least privilege</span><span class="hl">OIDC</span><span class="hl">IMDSv2</span><span class="hl">CSP</span><span class="hl">Secret scanning</span><span>MFA</span></div>
         </div>
         <div class="skill">
-          <h3>AI in Operations</h3>
-          <p>Claude on Amazon Bedrock triages every new incident. The AI suggests a severity and a reason; a human decides.</p>
-          <div class="tags"><span class="hl">Amazon Bedrock</span><span class="hl">Claude</span><span>Prompt-injection guard</span><span>Human in the loop</span></div>
+          <h3>Incident Triage</h3>
+          <p>A model on Amazon Bedrock reads every new incident and suggests a severity and a reason. A human decides; inputs are guarded against prompt injection.</p>
+          <div class="tags"><span class="hl">Amazon Bedrock</span><span>Prompt-injection guard</span><span>Human in the loop</span></div>
         </div>
       </div>
     </div>
@@ -493,7 +507,7 @@
           <ul class="m-lines">
             <li>About 125 resources in Terraform, shipped only through CI with human approval.</li>
             <li>P1 incidents nobody picks up escalate by themselves: EventBridge and Step Functions, no glue code.</li>
-            <li>AI triage with Claude on Bedrock. It suggests; a manager decides.</li>
+            <li>Incident triage on Amazon Bedrock: it suggests, a manager decides.</li>
           </ul>
           <div class="tags"><span class="hl">Lambda</span><span class="hl">API Gateway</span><span class="hl">DynamoDB</span><span class="hl">Cognito</span><span class="hl">Bedrock</span><span class="hl">Terraform</span></div>
           <a class="build-link" href="https://github.com/rugerious/cloudops-aws-platform" target="_blank" rel="noopener noreferrer">github.com/rugerious/cloudops-aws-platform</a>
@@ -605,12 +619,12 @@
       <div class="now">
         <div class="live">Live · in progress</div>
         <h3>On the way to<br><em>AWS Solutions Architect.</em></h3>
-        <p>Everything I know about how networks physically work, now applied to cloud architecture. Pursuing AWS SAA-C03. Three systems running on AWS, all in Terraform and all deployed over OIDC with no stored keys: a serverless incident platform with AI triage, a cloud-native 5G lab on Kubernetes, and a real-time chat my family uses every day. This site too: S3 and CloudFront, a briefing built from RSS every few hours. Every project on GitHub. One commit at a time.</p>
+        <p>Everything I know about how networks physically work, now applied to cloud architecture. Pursuing AWS SAA-C03. Three systems running on AWS, all in Terraform and all deployed over OIDC with no stored keys: a serverless incident platform with automatic escalation, a cloud-native 5G lab on Kubernetes, and a real-time chat my family uses every day. This site too: S3 and CloudFront, a briefing built from RSS every few hours. Every project on GitHub. One commit at a time.</p>
         <div class="tags">
           <span class="hl">AWS SAA-C03</span><span class="hl">Terraform</span><span class="hl">Kubernetes</span><span class="hl">Serverless</span><span class="hl">GitHub Actions · OIDC</span><span class="hl">5G core</span><span class="hl">Bedrock</span><span>Cloud networking</span><span>IAM &amp; security</span>
         </div>
       </div>
-      <div class="contact">
+      <div class="contact" id="contact">
         <p class="contact-title">Building something on cloud or telecom? <em>Let's talk.</em></p>
         <div class="btns">
           <a href="https://www.linkedin.com/in/paulo-martinho-5957ab69/" class="btn btn-fill" target="_blank" rel="noopener">Connect on LinkedIn</a>
@@ -629,6 +643,28 @@
 </footer>
 
 <script>
+  // Header links: mark the section the reader is in.
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    var links = document.querySelectorAll('nav .links a');
+    var map = {};
+    links.forEach(function (a) { var t = document.getElementById(a.getAttribute('href').slice(1)); if (t) map[t.id] = a; });
+    // Contact sits inside the "Right now" block; light it up from there.
+    var targets = Object.keys(map).map(function (id) { return id === 'contact' ? document.getElementById('now') : document.getElementById(id); });
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var id = e.target.id === 'now' ? 'contact' : e.target.id;
+        links.forEach(function (a) { a.removeAttribute('aria-current'); });
+        if (map[id]) map[id].setAttribute('aria-current', 'location');
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    targets.forEach(function (t) { if (t) obs.observe(t); });
+    var hero = document.getElementById('briefing');
+    new IntersectionObserver(function (e) {
+      if (e[0].isIntersecting) links.forEach(function (a) { a.removeAttribute('aria-current'); });
+    }, { rootMargin: '-45% 0px -50% 0px' }).observe(hero);
+  })();
   // Greeting and date follow the visitor's own clock.
   (function () {
     var now = new Date(), h = now.getHours();

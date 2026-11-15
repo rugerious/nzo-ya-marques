@@ -10,7 +10,7 @@
         {
           "name": "InfoQ",
           "url": "https://feed.infoq.com/anthropic/",
-          "tag": "Claude",
+          "tag": "Engineering",
           "official": false,
           "max_age_days": 14
         },
