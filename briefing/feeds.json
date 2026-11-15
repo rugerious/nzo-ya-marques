@@ -17,13 +17,13 @@
         {
           "name": "AWS What's New",
           "url": "https://aws.amazon.com/about-aws/whats-new/recent/feed/",
-          "tag": "Cloud · AWS",
+          "tag": "Cloud and AWS",
           "official": true
         },
         {
           "name": "AWS News Blog",
           "url": "https://aws.amazon.com/blogs/aws/feed/",
-          "tag": "Cloud · AWS",
+          "tag": "Cloud and AWS",
           "official": true,
           "max_age_days": 7,
           "page_image": true
@@ -36,7 +36,7 @@
         {
           "name": "RCR Wireless",
           "url": "https://www.rcrwireless.com/feed",
-          "tag": "Telecom / 5G",
+          "tag": "Telecom and 5G",
           "official": false,
           "page_image": true
         }
