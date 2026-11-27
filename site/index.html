@@ -404,9 +404,9 @@
     <section class="status" aria-labelledby="status-title">
       <h2 id="status-title">Running now</h2>
       <ul class="board">
-        <li><span class="st live">Live</span><b>CloudOps</b><span class="what">Serverless incident platform</span><span class="data">~125 Terraform resources</span></li>
         <li><span class="st wip">Building</span><b>Deskville</b><span class="what">Multi-tenant platform for councils</span><span class="data">Isolation checks 30/30</span></li>
         <li><span class="st wip">Building</span><b>Handover 5G lab</b><span class="what">5G core and RAN on Kubernetes</span><span class="data">Stops itself every night</span></li>
+        <li><span class="st live">Live</span><b>CloudOps</b><span class="what">Serverless incident platform</span><span class="data">~125 Terraform resources</span></li>
         <li><span class="st live">Live</span><b>Kuribotas</b><span class="what">Real-time chat for the family</span><span class="data">p99 7 ms at 150 users</span></li>
         <li><span class="st live">Live</span><b>nzoyamarques.com</b><span class="what">This site and its radar</span><span class="data" id="site-age">Updated every 3 hours</span></li>
       </ul>
@@ -485,17 +485,6 @@
           <a class="build-link" href="https://github.com/rugerious/deskville" target="_blank" rel="noopener noreferrer">github.com/rugerious/deskville</a>
         </article>
         <article class="build">
-          <div class="build-head"><h3>CloudOps</h3><span class="state live">Live demo</span></div>
-          <p class="build-what">A serverless platform for logging, working and closing IT and data-centre incidents: one place for every incident, its photos and full history.</p>
-          <ul class="m-lines">
-            <li>About 125 resources in Terraform, shipped only through CI with human approval.</li>
-            <li>P1 incidents nobody picks up escalate by themselves: EventBridge and Step Functions, no glue code.</li>
-            <li>Incident triage on Amazon Bedrock: it suggests, a manager decides.</li>
-          </ul>
-          <div class="tags"><span class="hl">Lambda</span><span class="hl">API Gateway</span><span class="hl">DynamoDB</span><span class="hl">Cognito</span><span class="hl">Bedrock</span><span class="hl">Terraform</span></div>
-          <a class="build-link" href="https://github.com/rugerious/cloudops-aws-platform" target="_blank" rel="noopener noreferrer">github.com/rugerious/cloudops-aws-platform</a>
-        </article>
-        <article class="build">
           <div class="build-head"><h3>Handover: 5G Operations Lab</h3><span class="state wip">Building</span></div>
           <p class="build-what">My handover from RAN to cloud: a cloud-native 5G network on Kubernetes in AWS.</p>
           <ul class="m-lines">
@@ -505,6 +494,17 @@
           </ul>
           <div class="tags"><span class="hl">k3s</span><span class="hl">Helm</span><span class="hl">Open5GS</span><span class="hl">OCUDU</span><span class="hl">Ansible</span><span class="hl">Terraform</span></div>
           <a class="build-link" href="https://github.com/rugerious/handover-5g" target="_blank" rel="noopener noreferrer">github.com/rugerious/handover-5g</a>
+        </article>
+        <article class="build">
+          <div class="build-head"><h3>CloudOps</h3><span class="state live">Live demo</span></div>
+          <p class="build-what">A serverless platform for logging, working and closing IT and data-centre incidents: one place for every incident, its photos and full history.</p>
+          <ul class="m-lines">
+            <li>About 125 resources in Terraform, shipped only through CI with human approval.</li>
+            <li>P1 incidents nobody picks up escalate by themselves: EventBridge and Step Functions, no glue code.</li>
+            <li>Incident triage on Amazon Bedrock: it suggests, a manager decides.</li>
+          </ul>
+          <div class="tags"><span class="hl">Lambda</span><span class="hl">API Gateway</span><span class="hl">DynamoDB</span><span class="hl">Cognito</span><span class="hl">Bedrock</span><span class="hl">Terraform</span></div>
+          <a class="build-link" href="https://github.com/rugerious/cloudops-aws-platform" target="_blank" rel="noopener noreferrer">github.com/rugerious/cloudops-aws-platform</a>
         </article>
         <article class="build">
           <div class="build-head"><h3>Kuribotas</h3><span class="state live">Live, in family use</span></div>

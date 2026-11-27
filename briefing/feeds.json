@@ -43,9 +43,10 @@
       ]
     }
   },
-  "_projects": "Every public repo of the owner, newest push first, up to max; forks, archived repos and names in hide are left out.",
+  "_projects": "Every public repo of the owner, up to max: the names in order first, in that order, then any other repo by newest push. Forks, archived repos and names in hide are left out.",
   "projects": {
     "owner": "rugerious",
+    "order": ["deskville", "handover-5g", "cloudops-aws-platform", "kuribotas", "nzo-ya-marques"],
     "hide": [],
     "max": 6
   },
