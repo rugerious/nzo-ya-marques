@@ -43,12 +43,12 @@
       ]
     }
   },
-  "projects": [
-    "rugerious/kuribotas",
-    "rugerious/handover-5g",
-    "rugerious/cloudops-aws-platform",
-    "rugerious/nzo-ya-marques"
-  ],
+  "_projects": "Every public repo of the owner, newest push first, up to max; forks, archived repos and names in hide are left out.",
+  "projects": {
+    "owner": "rugerious",
+    "hide": [],
+    "max": 6
+  },
   "highlight": [
     {
       "topic": "NBA",

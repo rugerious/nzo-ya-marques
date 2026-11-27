@@ -225,8 +225,9 @@
   .m-lines { list-style: none; display: flex; flex-direction: column; gap: 16px; max-width: 34em; margin: 0 auto; text-align: left; }
   .m-lines li { font-size: 16px; color: var(--text); line-height: 1.6; padding-left: 16px; border-left: 2px solid var(--border); }
 
-  .built { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .built { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
   .build { background: var(--bg2); padding: 28px 26px; display: flex; flex-direction: column; gap: 14px; }
+  .build-note { font-size: 13px; color: var(--soft); }
   .build-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; }
   .build h3 { font-family: var(--display); font-weight: 400; font-size: 26px; letter-spacing: .04em; line-height: 1.05; }
   .state { font-family: var(--mono); font-size: 12px; padding: 2px 8px; border: 1px solid; }
@@ -404,6 +405,7 @@
       <h2 id="status-title">Running now</h2>
       <ul class="board">
         <li><span class="st live">Live</span><b>CloudOps</b><span class="what">Serverless incident platform</span><span class="data">~125 Terraform resources</span></li>
+        <li><span class="st wip">Building</span><b>Deskville</b><span class="what">Multi-tenant platform for councils</span><span class="data">Isolation checks 30/30</span></li>
         <li><span class="st wip">Building</span><b>Handover 5G lab</b><span class="what">5G core and RAN on Kubernetes</span><span class="data">Stops itself every night</span></li>
         <li><span class="st live">Live</span><b>Kuribotas</b><span class="what">Real-time chat for the family</span><span class="data">p99 7 ms at 150 users</span></li>
         <li><span class="st live">Live</span><b>nzoyamarques.com</b><span class="what">This site and its radar</span><span class="data" id="site-age">Updated every 3 hours</span></li>
@@ -470,6 +472,18 @@
         <h2>What I've built</h2>
       </div>
       <div class="built">
+        <article class="build">
+          <div class="build-head"><h3>Deskville</h3><span class="state wip">Building</span></div>
+          <p class="build-what">One platform, many towns, and not a single byte allowed to cross between them: a multi-tenant assistant for residents' everyday questions, on AWS.</p>
+          <ul class="m-lines">
+            <li>PostgreSQL with pgvector and forced row-level security: each town finds only its own data, 30 of 30 isolation checks on the real database.</li>
+            <li>The town comes from the signed Cognito token, never from the request: 22 API security tests on every pull request.</li>
+            <li>Private subnets with no route to the internet, checked against the live AWS API. No NAT Gateway, by design.</li>
+          </ul>
+          <div class="tags"><span class="hl">PostgreSQL</span><span class="hl">pgvector</span><span class="hl">Cognito</span><span class="hl">ECS Fargate</span><span class="hl">Terraform</span><span>GitHub Actions</span></div>
+          <p class="build-note">Unofficial demonstration built from public council information; all resident data is fictional.</p>
+          <a class="build-link" href="https://github.com/rugerious/deskville" target="_blank" rel="noopener noreferrer">github.com/rugerious/deskville</a>
+        </article>
         <article class="build">
           <div class="build-head"><h3>CloudOps</h3><span class="state live">Live demo</span></div>
           <p class="build-what">A serverless platform for logging, working and closing IT and data-centre incidents: one place for every incident, its photos and full history.</p>
@@ -582,7 +596,7 @@
       </div>
       <div class="now">
         <h3>On the way to AWS Solutions Architect.</h3>
-        <p>Everything I know about how networks physically work, now applied to cloud architecture. Pursuing AWS SAA-C03. Three systems running on AWS, all in Terraform and all deployed over OIDC with no stored keys: a serverless incident platform with automatic escalation, a cloud-native 5G lab on Kubernetes, and a real-time chat my family uses every day. This site too: S3 and CloudFront, a briefing built from RSS every few hours. Every project on GitHub. One commit at a time.</p>
+        <p>Everything I know about how networks physically work, now applied to cloud architecture. Pursuing AWS SAA-C03. Three systems running on AWS, all in Terraform and all deployed over OIDC with no stored keys: a serverless incident platform with automatic escalation, a cloud-native 5G lab on Kubernetes, and a real-time chat my family uses every day. This site too: S3 and CloudFront, a briefing built from RSS every few hours. Now building Deskville, a multi-tenant platform where no town can ever see another's data. Every project on GitHub. One commit at a time.</p>
         <div class="tags">
           <span class="hl">AWS SAA-C03</span><span class="hl">Terraform</span><span class="hl">Kubernetes</span><span class="hl">Serverless</span><span class="hl">GitHub Actions · OIDC</span><span class="hl">5G core</span><span class="hl">Bedrock</span><span>Cloud networking</span><span>IAM &amp; security</span>
         </div>
