@@ -241,8 +241,9 @@ def github_projects(cfg, status):
 
     No commit messages or issues: only what the repo page itself shows.
     cfg is either a list of "owner/repo" (fixed list) or
-    {"owner": ..., "hide": [...], "max": n}: every public repo of the owner,
-    newest push first, minus forks, archived repos and the ones in hide.
+    {"owner": ..., "order": [...], "hide": [...], "max": n}: every public repo
+    of the owner minus forks, archived repos and the ones in hide; the names in
+    order come first, in that order, then any other repo, newest push first.
     """
     headers = {"User-Agent": USER_AGENT, "Accept": "application/vnd.github+json"}
     token = os.environ.get("GITHUB_TOKEN")
@@ -257,9 +258,12 @@ def github_projects(cfg, status):
             log("FAIL github %s: %s" % (owner, exc))
             status["failed"].append("github:" + owner)
             return []
-        repos = [r["full_name"] for r in listing
-                 if not r.get("private") and not r.get("fork") and not r.get("archived")
-                 and r.get("name") not in hide][: cfg.get("max", 6)]
+        public = [r["name"] for r in listing
+                  if not r.get("private") and not r.get("fork") and not r.get("archived")
+                  and r.get("name") not in hide]
+        order = cfg.get("order", [])
+        names = [n for n in order if n in public] + [n for n in public if n not in order]
+        repos = [owner + "/" + n for n in names][: cfg.get("max", 6)]
     else:
         repos = cfg
     projects = []
@@ -281,7 +285,8 @@ def github_projects(cfg, status):
             "link": clean_link(repo.get("html_url")),
         })
         log("ok   github %s" % full_name)
-    projects.sort(key=lambda p: p["pushed_at"] or "", reverse=True)
+    if not isinstance(cfg, dict):
+        projects.sort(key=lambda p: p["pushed_at"] or "", reverse=True)
     return projects
 
 
@@ -311,7 +316,7 @@ def main():
     pcfg = config.get("projects", [])
     if isinstance(pcfg, dict):
         assert re.fullmatch(r"[\w-]+", pcfg.get("owner", "")), "projects.owner must be a GitHub user"
-        assert all(re.fullmatch(r"[\w.-]+", h) for h in pcfg.get("hide", [])), "projects.hide must be repo names"
+        assert all(re.fullmatch(r"[\w.-]+", h) for h in pcfg.get("hide", []) + pcfg.get("order", [])), "projects.hide and projects.order must be repo names"
         assert 1 <= int(pcfg.get("max", 6)) <= 12, "projects.max must be 1..12"
     else:
         assert all(re.fullmatch(r"[\w.-]+/[\w.-]+", r) for r in pcfg), "projects must be owner/repo"
